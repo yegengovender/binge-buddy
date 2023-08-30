@@ -1,5 +1,8 @@
 <template>
-  <h1>Binge Buddy</h1>
+  <div>
+    <h1 class="logo">BINGE BUDDY</h1>
+  </div>
+
   <MainPage />
 </template>
 
@@ -23,5 +26,13 @@ export default defineComponent({
   // text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.logo {
+  display: inline-block;
+  border: solid rgb(116, 124, 148);
+  border-width: 0 20px 32px 20px;
+  border-radius: 6px;
+  padding: 9px;
 }
 </style>
