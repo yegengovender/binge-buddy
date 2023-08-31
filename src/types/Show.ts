@@ -1,3 +1,5 @@
+import { TvEpisode } from "./TvEpisode";
+
 export interface Show {
     id: number;
     name: string;  
@@ -7,4 +9,5 @@ export interface Show {
     premiered: string;
     rating: number;
     image: string;
+    episodes: TvEpisode[];
 }

@@ -4,7 +4,10 @@
   </div>
 
   <MyShows :shows="myShows" />
-  <SearchShows :search-method="doSearch" :add-to-my-shows="addToMyShows" />
+  <SearchShows
+    :search-method="TvService.doSearch"
+    :add-to-my-shows="addToMyShows"
+  />
 </template>
 
 <script lang="ts">
@@ -12,7 +15,7 @@ import { defineComponent } from "vue";
 import SearchShows from "@/components/SearchShows.vue";
 import MyShows from "@/components/MyShows.vue";
 import { Show } from "@/types/Show";
-
+import { TvService } from "@/services/TvService";
 export default defineComponent({
   name: "App",
   components: {
@@ -23,33 +26,15 @@ export default defineComponent({
     return {
       allShows: [],
       myShows: [],
+      TvService,
     };
   },
   methods: {
-    addToMyShows(e: any) {
+    async addToMyShows(e: any) {
       let show = e as Show;
+      show.episodes = await TvService.getEpisodes(show.id);
       (this.myShows as Show[]).push(show);
       console.log(this.myShows);
-    },
-    async doSearch(searchText: string) {
-      let data = await fetch(
-        `https://api.tvmaze.com/search/shows?q=${searchText}`
-      );
-      let results = await data.json();
-      results = results.map((show: any) => this.toShowObject(show.show));
-      return results;
-    },
-    toShowObject(show: any): Show {
-      return {
-        id: show.id,
-        language: show.language,
-        name: show.name,
-        premiered: show.premiered,
-        status: show.status,
-        summary: show.summary,
-        image: show.image?.medium || "",
-        rating: show.rating.average,
-      } as Show;
     },
   },
 });

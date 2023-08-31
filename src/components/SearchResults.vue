@@ -1,10 +1,7 @@
 <template>
   <div v-for="item in results" :key="item.id" class="result-item">
     <div class="show-info">
-      <div
-        :style="{ backgroundImage: 'url(' + item.image + ')' }"
-        class="poster"
-      ></div>
+      <ShowPoster :show="item" />
 
       <h2 class="show-name">{{ item.name }}</h2>
 
@@ -23,8 +20,9 @@
 </template>
 
 <script lang="ts">
-import { Show } from "@/types/Show";
 import { defineComponent } from "vue";
+import ShowPoster from "@/components/ShowPoster.vue";
+import { Show } from "@/types/Show";
 
 export default defineComponent({
   name: "SearchResults",
@@ -38,12 +36,7 @@ export default defineComponent({
       required: true,
     },
   },
-  // methods: {
-  //   addToMyShows(show: Show) {
-  //     (this.results as Show[]).push(show);
-  //     console.log(this.results);
-  //   },
-  // },
+  components: { ShowPoster },
 });
 </script>
 
@@ -53,13 +46,6 @@ export default defineComponent({
   margin: 15px 0;
   grid-template-areas: "topleft topright";
   grid-template-columns: 1fr 3fr;
-
-  .poster {
-    height: 150px;
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
 
   .show-info {
     grid-area: topleft;
