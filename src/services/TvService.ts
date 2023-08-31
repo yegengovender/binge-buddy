@@ -5,6 +5,12 @@ export class TvService {
   private static readonly DefaultImage =
     "https://static.tvmaze.com/images/no-img/no-img-portrait-text.png";
 
+  static async getShow(showId: number): Promise<Show> {
+    const data = await fetch(`https://api.tvmaze.com/shows/${showId}`);
+    const show = await data.json();
+    return TvService.toShowObject(show);
+  }
+
   static async doSearch(searchText: string): Promise<Show[]> {
     const data = await fetch(
       `https://api.tvmaze.com/search/shows?q=${searchText}`

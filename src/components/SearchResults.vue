@@ -1,5 +1,9 @@
 <template>
-  <div v-for="item in results" :key="item.id" class="result-item">
+  <div
+    v-for="item in results"
+    :key="item.id"
+    class="result-item {{ item.id % 2 === 0 ? even-row : odd-row }}"
+  >
     <div class="show-info">
       <ShowPoster :show="item" />
 
@@ -12,8 +16,8 @@
     <div class="show-details">
       <div class="show-summary" v-html="item.summary"></div>
       <div>{{ item.rating }}</div>
-      <button @click="addToMyShows(item)">+ I'm watching</button>
-      <button>More Info</button>
+      <CommonButton @click="addToMyShows(item)">+ I'm watching</CommonButton>
+      <CommonButton :is-secondary="true">More Info</CommonButton>
       <hr />
     </div>
   </div>
@@ -23,6 +27,7 @@
 import { defineComponent } from "vue";
 import ShowPoster from "@/components/ShowPoster.vue";
 import { Show } from "@/types/Show";
+import CommonButton from "@/components/Button.vue";
 
 export default defineComponent({
   name: "SearchResults",
@@ -36,16 +41,24 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { ShowPoster },
+  components: { ShowPoster, CommonButton },
 });
 </script>
 
 <style scoped lang="scss">
 .result-item {
   display: grid;
-  margin: 15px 0;
+  padding: 15px 0 50px;
   grid-template-areas: "topleft topright";
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: max-content 1fr;
+
+  &.even-row {
+    background-color: #343333;
+  }
+
+  &.odd-row {
+    background-color: #5e5e5e;
+  }
 
   .show-info {
     grid-area: topleft;
@@ -59,21 +72,11 @@ export default defineComponent({
   .show-details {
     grid-area: topright;
 
-    button {
-      background-color: #464646;
-      color: white;
-      border: 1px solid white;
-      border-radius: 5px;
-      padding: 5px 10px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      margin-right: 10px;
-    }
-
     .show-summary {
-      max-height: 100px;
+      max-height: 70px;
       overflow: hidden;
       text-overflow: ellipsis;
+
       padding: 10px;
     }
   }
