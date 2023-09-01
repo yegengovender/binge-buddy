@@ -6,10 +6,19 @@
   >
     <li>
       <a>
-        <h3 class="has-text-weight-semibold">
-          Episode {{ s.number }} - {{ s.name }}
-        </h3>
-        <div classs="block" v-html="s.summary"></div>
+        <div class="panel">
+          <div class="panel-heading">
+            Episode {{ s.number }} - {{ s.name }} <br />
+            <span class="is-size-6"> {{ s.runtime }} mins</span>
+            &nbsp;
+            <span class="tag is-success">
+              <input type="checkbox" />&nbsp;Watched
+            </span>
+          </div>
+          <div class="panel-block">
+            <div classs="block" v-html="s.summary"></div>
+          </div>
+        </div>
       </a>
     </li>
   </ul>

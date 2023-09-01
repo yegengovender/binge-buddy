@@ -4,20 +4,21 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Show Details</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete" aria-label="close" @click="closeClick"></button>
       </header>
 
       <section class="modal-card-body">
         <div class="card-image">
-          <figure class="image is-4by3 has-text-centered" is-ce>
+          <figure class="image is-4by3 has-background-dark" is-ce>
             <img
               :src="show.imageLarge"
               alt="Placeholder image"
-              style="width: auto"
+              style="width: auto; margin: 15px auto; height: 400px"
             />
           </figure>
         </div>
 
+        <!-- HEADER PANEL -->
         <div class="card-content">
           <div class="media">
             <div class="media-left">
@@ -32,6 +33,7 @@
             </div>
           </div>
 
+          <!-- TABS -->
           <div class="card-content">
             <div class="tabs is-fullwidth is-active is-toggle">
               <ul>
@@ -49,18 +51,22 @@
                 </li>
               </ul>
             </div>
+
+            <!-- Summary -->
             <div
               v-if="currentTab === 'summary'"
               class="has-text-grey"
               v-html="show.summary"
             ></div>
 
+            <!-- Episodes -->
             <div v-if="currentTab === 'episodes'" class="has-text-grey">
               <div class="columns">
                 <div class="column is-one-quarter block menu">
                   <h2 class="has-text=weight-bold is-size-6 menu-label">
                     Seasons
                   </h2>
+
                   <ul
                     class="menu-list"
                     v-for="(s, i) in new Set(
@@ -70,7 +76,7 @@
                   >
                     <li>
                       <a
-                        @click="selectedSeason = s"
+                        @click="setSeason(s)"
                         :class="s === selectedSeason ? 'is-active' : ''"
                         >{{ s }}</a
                       >
@@ -80,7 +86,7 @@
 
                 <div class="column menu">
                   <h2 class="has-text=weight-bold is-size-6 menu-label">
-                    Episodes
+                    Episodes - Season {{ selectedSeason }}
                   </h2>
 
                   <SeasonEpisodes :show="show" :season="selectedSeason" />
@@ -114,10 +120,17 @@ export default defineComponent({
       type: Object as () => Show,
       required: true,
     },
+    closeClick: {
+      type: Function as any,
+      required: true,
+    },
   },
   methods: {
     setTab(tab: string) {
       this.currentTab = tab;
+    },
+    setSeason(season: number) {
+      this.selectedSeason = season;
     },
   },
   components: { SeasonEpisodes },

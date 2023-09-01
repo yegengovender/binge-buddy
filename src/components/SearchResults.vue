@@ -20,9 +20,8 @@
         <div>{{ show.rating }}</div>
         <CommonButton @click="addToMyShows(show)">
           <span class="icon is-medium"
-            ><i class="fas fa-solid fa-plus"></i
-          ></span>
-          I'm watching
+            ><i class="fas fa-solid fa-plus"></i></span
+          >&nbsp; I'm watching
         </CommonButton>
         <CommonButton :is-secondary="true">More Info</CommonButton>
       </div>

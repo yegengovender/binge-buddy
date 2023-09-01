@@ -15,11 +15,15 @@
   </header>
 
   <div class="main-content">
-    <ShowDetails v-if="showsVisible" :show="showDetails" />
+    <ShowDetails
+      v-if="showDetailsVisible"
+      :show="showDetails"
+      :close-click="hideShowDetails"
+    />
     <MyShows
       v-if="showsVisible"
       :shows="myShows"
-      :show-info="showInfo"
+      :show-info="displayShowDetails"
       :remove-show="removeShow"
     />
 
@@ -31,9 +35,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toHandlers } from "vue";
+import { defineComponent } from "vue";
 import { TvService } from "@/services/TvService";
+import { UserService } from "@/services/UserService";
 import { Show } from "@/types/Show";
+import { User } from "@/types/User";
 import SearchShows from "@/components/SearchShows.vue";
 import MyShows from "@/components/MyShows.vue";
 import MyShowsAnchor from "@/components/MyShowsAnchor.vue";
@@ -49,11 +55,16 @@ export default defineComponent({
   },
   data() {
     return {
-      allShows: [] as Show[],
-      myShows: new Set() as Set<Show>,
       TvService,
-      showsVisible: false,
+      user: {
+        name: "John Doe",
+        shows: new Set() as Set<Show>,
+      } as User,
+      allShows: [] as Show[],
       showDetails: {} as Show,
+      myShows: new Set() as Set<Show>,
+      showsVisible: false,
+      showDetailsVisible: false,
     };
   },
   methods: {
@@ -62,17 +73,19 @@ export default defineComponent({
     },
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
-      this.myShows = new Set(this.myShows).add(show);
-      this.showDetails = show;
+      UserService.addShow(this.user, show);
+      this.myShows = this.user.shows;
     },
     removeShow(show: Show) {
-      this.myShows.delete(show);
-      console.log("deleted", this.myShows);
+      UserService.removeShow(this.user, show);
+      this.myShows = this.user.shows;
     },
-    async showInfo(show: Show) {
-      show = await TvService.getShow(show.id);
+    async displayShowDetails(show: Show) {
       this.showDetails = show;
-      console.log("show", show);
+      this.showDetailsVisible = true;
+    },
+    hideShowDetails() {
+      this.showDetailsVisible = false;
     },
   },
 });
@@ -170,9 +183,10 @@ li {
 .logo {
   display: inline-block;
   border: solid rgb(116, 124, 148);
-  border-width: 0 10px 14px 10px;
-  border-radius: 3px;
-  padding: 8px;
+  border-width: 0 15px 18px 15px;
+  border-radius: 6px 6px 3px 3px;
+  padding: 8px 12px;
   margin: 10px;
+  background-color: #3c4349;
 }
 </style>
