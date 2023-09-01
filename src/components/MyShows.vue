@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h1>My Shows</h1>
-    <div class="shows-content">
+  <nav class="panel has-background-grey-light">
+    <p class="panel-heading">My Shows</p>
+    <div class="panel-block">
       <div
         v-for="show in (shows as Set<Show>)"
         :key="show.id"
@@ -28,7 +28,7 @@
       </div>
       <div v-if="shows.size === 0">No shows yet</div>
     </div>
-  </div>
+  </nav>
   <SearchShows />
 </template>
 

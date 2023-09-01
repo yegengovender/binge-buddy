@@ -1,26 +1,28 @@
 <template>
-  <div class="search-bar">
-    <h3 for="search-shows">Search for a show</h3>
-    <input
-      type="text"
-      id="search-shows"
-      placeholder="What are you watching today?"
-      @keyup="doSearch"
-      v-model="searchText"
-    />
-    <!-- <input type="text" placeholder="Search..."> -->
-    <!-- <button>Search</button> -->
-  </div>
-
-  <div v-if="results.length">
-    <SearchResults :results="results" :add-to-my-shows="addToMyShows" />
-    <hr />
-  </div>
+  <nav class="panel has-background-grey-light">
+    <p class="panel-heading">Search for a show</p>
+    <div class="panel-block">
+      <p class="control has-icons-left">
+        <input
+          class="input is-large"
+          type="text"
+          id="search-shows"
+          placeholder="What are you watching today?"
+          @keyup="doSearch"
+          v-model="searchText"
+        />
+      </p>
+    </div>
+    <div v-if="results.length">
+      <SearchResults :results="results" :add-to-my-shows="addToMyShows" />
+    </div>
+  </nav>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import SearchResults from "./SearchResults.vue";
+import { Show } from "@/types/Show";
 
 export default defineComponent({
   name: "SearchShows",
@@ -33,7 +35,7 @@ export default defineComponent({
   props: {
     searchMethod: Function,
     addToMyShows: {
-      type: Function as any,
+      type: Function,
       required: true,
     },
     // searchText: String,
@@ -53,43 +55,4 @@ export default defineComponent({
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-#search-shows {
-  width: 100%;
-  // padding: 0.5rem;
-  font-size: 1.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-}
-.search-bar {
-  background-color: #222; /* Dark background color */
-  padding: 20px; /* Adjust the padding as needed */
-  text-align: center;
-}
-
-.search-bar input[type="text"] {
-  width: 60%; /* Adjust the width of the input field */
-  padding: 10px; /* Adjust the padding as needed */
-  border: none;
-  background-color: #444; /* Input field background color */
-  color: #fff; /* Text color */
-}
-
-.search-bar button {
-  padding: 10px 20px; /* Adjust the padding as needed */
-  background-color: #ff6600; /* Button background color */
-  color: #fff; /* Text color */
-  border: none;
-  cursor: pointer;
-}
-
-/* Center the search bar items horizontally */
-.search-bar input[type="text"],
-.search-bar button {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-/* Add more specific styles for the search bar if needed */
-</style>
+<style scoped lang="scss"></style>

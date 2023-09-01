@@ -25,6 +25,7 @@ export class TvService {
       ...show,
       rating: show.rating?.average || -1,
       image: show.image?.medium || TvService.DefaultImage,
+      imageLarge: show.image?.original || TvService.DefaultImage,
       //   episodes: await TvService.getEpisodes(show.id),
     } as Show;
   }

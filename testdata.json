@@ -1,3 +1,5 @@
+// shows
+
 [
     {
         "score": 0.3750263,
@@ -240,3 +242,57 @@
         }
     }
 ]
+
+// show
+
+{
+    "id": 11920,
+    "url": "https://www.tvmaze.com/shows/11920/word-party",
+    "name": "Word Party",
+    "type": "Animation",
+    "language": "English",
+    "genres": [
+        "Children"
+    ],
+    "status": "To Be Determined",
+    "runtime": 14,
+    "averageRuntime": 13,
+    "premiered": "2016-07-08",
+    "ended": null,
+    "officialSite": "https://www.netflix.com/title/80063705",
+    "schedule": {
+        "time": "",
+        "days": []
+    },
+    "rating": {
+        "average": null
+    },
+    "weight": 56,
+    "network": null,
+    "webChannel": {
+        "id": 1,
+        "name": "Netflix",
+        "country": null,
+        "officialSite": "https://www.netflix.com/"
+    },
+    "dvdCountry": null,
+    "externals": {
+        "tvrage": null,
+        "thetvdb": null,
+        "imdb": null
+    },
+    "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/195/488700.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/195/488700.jpg"
+    },
+    "summary": "<p><b>Word Party</b> is a vocabulary building show from The Jim Henson Company that follows four adorable baby animals as they sing, dance and play. The show invites our youngest viewers to help teach the baby animals new words, practice these new words themselves, and celebrate these achievements with a \"Word Party!\"</p>",
+    "updated": 1649587020,
+    "_links": {
+        "self": {
+            "href": "https://api.tvmaze.com/shows/11920"
+        },
+        "previousepisode": {
+            "href": "https://api.tvmaze.com/episodes/2040816"
+        }
+    }
+}

@@ -1,25 +1,32 @@
 <template>
   <div
-    v-for="item in results"
-    :key="item.id"
-    class="result-item {{ item.id % 2 === 0 ? even-row : odd-row }}"
+    v-for="(show, index) in results"
+    :key="index"
+    class="result-item"
+    :class="index % 2 == 0 ? 'even-row' : 'odd-row'"
   >
-    <div class="show-info">
-      <ShowPoster :show="item" />
+    <a class="panel-block">
+      <div class="show-info">
+        <ShowPoster :show="show" />
 
-      <h2 class="show-name">{{ item.name }}</h2>
+        <h2 class="show-name">{{ index % 2 }} {{ show.name }}</h2>
 
-      <div>{{ item.language }}</div>
-      <div>{{ item.premiered }}</div>
-    </div>
+        <div>{{ show.language }}</div>
+        <div>{{ show.premiered }}</div>
+      </div>
 
-    <div class="show-details">
-      <div class="show-summary" v-html="item.summary"></div>
-      <div>{{ item.rating }}</div>
-      <CommonButton @click="addToMyShows(item)">+ I'm watching</CommonButton>
-      <CommonButton :is-secondary="true">More Info</CommonButton>
-      <hr />
-    </div>
+      <div class="show-details">
+        <div class="show-summary" v-html="show.summary"></div>
+        <div>{{ show.rating }}</div>
+        <CommonButton @click="addToMyShows(show)">
+          <span class="icon is-medium"
+            ><i class="fas fa-solid fa-plus"></i
+          ></span>
+          I'm watching
+        </CommonButton>
+        <CommonButton :is-secondary="true">More Info</CommonButton>
+      </div>
+    </a>
   </div>
 </template>
 
@@ -47,36 +54,23 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .result-item {
-  display: grid;
-  padding: 15px 0 50px;
-  grid-template-areas: "topleft topright";
-  grid-template-columns: max-content 1fr;
-
-  &.even-row {
-    background-color: #343333;
-  }
-
-  &.odd-row {
-    background-color: #5e5e5e;
-  }
-
-  .show-info {
-    grid-area: topleft;
-    text-align: center;
-  }
-
   .show-image {
     height: 200px;
   }
 
-  .show-details {
-    grid-area: topright;
+  &.even-row {
+    background-color: hsl(0, 0%, 71%);
+  }
 
+  &.odd-row {
+    background-color: hsl(0, 0%, 86%);
+  }
+
+  .show-details {
     .show-summary {
       max-height: 70px;
       overflow: hidden;
       text-overflow: ellipsis;
-
       padding: 10px;
     }
   }

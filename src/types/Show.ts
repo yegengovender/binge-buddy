@@ -9,5 +9,6 @@ export interface Show {
     premiered: string;
     rating: number;
     image: string;
+    imageLarge: string;
     episodes: TvEpisode[];
 }

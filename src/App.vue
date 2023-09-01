@@ -15,7 +15,7 @@
   </header>
 
   <div class="main-content">
-    <!-- <div class="main-space"> -->
+    <ShowDetails v-if="showsVisible" :show="showDetails" />
     <MyShows
       v-if="showsVisible"
       :shows="myShows"
@@ -31,12 +31,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, toHandlers } from "vue";
 import { TvService } from "@/services/TvService";
 import { Show } from "@/types/Show";
 import SearchShows from "@/components/SearchShows.vue";
 import MyShows from "@/components/MyShows.vue";
 import MyShowsAnchor from "@/components/MyShowsAnchor.vue";
+import ShowDetails from "@/components/ShowDetails.vue";
 
 export default defineComponent({
   name: "App",
@@ -44,13 +45,15 @@ export default defineComponent({
     MyShows,
     SearchShows,
     MyShowsAnchor,
+    ShowDetails,
   },
   data() {
     return {
-      allShows: [],
-      myShows: new Set(),
+      allShows: [] as Show[],
+      myShows: new Set() as Set<Show>,
       TvService,
       showsVisible: false,
+      showDetails: {} as Show,
     };
   },
   methods: {
@@ -60,6 +63,7 @@ export default defineComponent({
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
       this.myShows = new Set(this.myShows).add(show);
+      this.showDetails = show;
     },
     removeShow(show: Show) {
       this.myShows.delete(show);
@@ -67,7 +71,8 @@ export default defineComponent({
     },
     async showInfo(show: Show) {
       show = await TvService.getShow(show.id);
-      console.log(show);
+      this.showDetails = show;
+      console.log("show", show);
     },
   },
 });
