@@ -244,7 +244,6 @@
 ]
 
 // show
-
 {
     "id": 11920,
     "url": "https://www.tvmaze.com/shows/11920/word-party",
@@ -296,3 +295,33 @@
         }
     }
 }
+
+// episode
+{
+    "id": 575529,
+    "url": "https://www.tvmaze.com/episodes/575529/word-party-1x01-meet-the-babies",
+    "name": "Meet the Babies",
+    "season": 1,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2016-07-08",
+    "airtime": "",
+    "airstamp": "2016-07-08T12:00:00+00:00",
+    "runtime": 13,
+    "rating": {
+        "average": null
+    },
+    "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/195/488702.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/195/488702.jpg"
+    },
+    "summary": "<p>Lulu doesn't know what kind of animal she is. Her friends Bailey, Franny and Kip need your help to figure it out.</p>",
+    "_links": {
+        "self": {
+            "href": "https://api.tvmaze.com/episodes/575529"
+        },
+        "show": {
+            "href": "https://api.tvmaze.com/shows/11920"
+        }
+    }
+},
