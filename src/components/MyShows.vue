@@ -1,6 +1,9 @@
 <template>
   <nav class="panel has-background-grey-light">
-    <p class="panel-heading">My Shows</p>
+    <p class="panel-heading">
+      My Shows
+      <button class="delete" aria-label="close"></button>
+    </p>
     <div class="panel-block">
       <div
         v-for="show in (shows as Set<Show>)"
@@ -26,7 +29,10 @@
           >
         </div>
       </div>
-      <div v-if="shows.size === 0">No shows yet</div>
+      <div v-if="shows.size === 0">
+        No shows yet
+        <CommonButton @click="showSearch(true)"> Add a show </CommonButton>
+      </div>
     </div>
   </nav>
   <SearchShows />
@@ -50,6 +56,10 @@ export default defineComponent({
       required: true,
     },
     removeShow: {
+      type: Function as any,
+      required: true,
+    },
+    showSearch: {
       type: Function as any,
       required: true,
     },

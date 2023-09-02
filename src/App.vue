@@ -5,7 +5,7 @@
       <!-- <img src="logo.png" alt="Logo" /> -->
     </div>
     <nav class="main-navigation">
-      <MyShowsAnchor @click="toggleMyShows">
+      <MyShowsAnchor>
         {{ myShows.size ? `(${myShows.size})` : "" }}</MyShowsAnchor
       >
     </nav>
@@ -21,13 +21,14 @@
       :close-click="hideShowDetails"
     />
     <MyShows
-      v-if="showsVisible"
       :shows="myShows"
+      :show-search="showSearch"
       :show-info="displayShowDetails"
       :remove-show="removeShow"
     />
 
     <SearchShows
+      v-if="searchVisible === true"
       :search-method="TvService.doSearch"
       :add-to-my-shows="addToMyShows"
     />
@@ -63,18 +64,22 @@ export default defineComponent({
       allShows: [] as Show[],
       showDetails: {} as Show,
       myShows: new Set() as Set<Show>,
-      showsVisible: false,
+      searchVisible: false,
       showDetailsVisible: false,
     };
   },
   methods: {
-    toggleMyShows() {
-      this.showsVisible = !this.showsVisible;
+    showSearch(isVisible: boolean) {
+      this.searchVisible = isVisible;
+    },
+    hideSearch(isVisible: boolean) {
+      this.searchVisible = false;
     },
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
       UserService.addShow(this.user, show);
       this.myShows = this.user.shows;
+      this.showSearch(false);
     },
     removeShow(show: Show) {
       UserService.removeShow(this.user, show);
