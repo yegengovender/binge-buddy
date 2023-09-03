@@ -2,7 +2,7 @@
   <nav class="panel has-background-grey-light">
     <p class="panel-heading">
       My Shows
-      <button class="delete" aria-label="close"></button>
+      <CommonButton @click="showSearch(true)"> Add a show </CommonButton>
     </p>
     <div class="panel-block">
       <div
@@ -31,7 +31,6 @@
       </div>
       <div v-if="shows.size === 0">
         No shows yet
-        <CommonButton @click="showSearch(true)"> Add a show </CommonButton>
       </div>
     </div>
   </nav>

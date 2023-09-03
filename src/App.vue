@@ -5,12 +5,10 @@
       <!-- <img src="logo.png" alt="Logo" /> -->
     </div>
     <nav class="main-navigation">
-      <MyShowsAnchor>
-        {{ myShows.size ? `(${myShows.size})` : "" }}</MyShowsAnchor
-      >
     </nav>
     <div class="user-section">
-      <li><a href="#">Login</a></li>
+      <CommonButton v-if="user.loggedIn" >{{ user.name }}</CommonButton>
+      <CommonButton v-else @click="login">Login</CommonButton>
     </div>
   </header>
 
@@ -18,10 +16,12 @@
     <ShowDetails
       v-if="showDetailsVisible"
       :show="showDetails"
+      :user="user"
       :close-click="hideShowDetails"
     />
     <MyShows
       :shows="myShows"
+      :user="user"
       :show-search="showSearch"
       :show-info="displayShowDetails"
       :remove-show="removeShow"
@@ -41,6 +41,7 @@ import { TvService } from "@/services/TvService";
 import { UserService } from "@/services/UserService";
 import { Show } from "@/types/Show";
 import { User } from "@/types/User";
+import { ShowsProgress } from "@/types/ShowsProgress";
 import SearchShows from "@/components/SearchShows.vue";
 import MyShows from "@/components/MyShows.vue";
 import MyShowsAnchor from "@/components/MyShowsAnchor.vue";
@@ -60,6 +61,7 @@ export default defineComponent({
       user: {
         name: "John Doe",
         shows: new Set() as Set<Show>,
+        showsProgress: new Set()as Set<ShowsProgress>,
       } as User,
       allShows: [] as Show[],
       showDetails: {} as Show,
