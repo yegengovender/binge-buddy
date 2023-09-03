@@ -29,9 +29,7 @@
           >
         </div>
       </div>
-      <div v-if="shows.size === 0">
-        No shows yet
-      </div>
+      <div v-if="shows.size === 0">No shows yet</div>
     </div>
   </nav>
   <SearchShows />

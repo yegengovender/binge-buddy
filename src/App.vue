@@ -4,10 +4,9 @@
       BINGE BUDDY
       <!-- <img src="logo.png" alt="Logo" /> -->
     </div>
-    <nav class="main-navigation">
-    </nav>
+    <nav class="main-navigation"></nav>
     <div class="user-section">
-      <CommonButton v-if="user.loggedIn" >{{ user.name }}</CommonButton>
+      <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
       <CommonButton v-else @click="login">Login</CommonButton>
     </div>
   </header>
@@ -52,7 +51,7 @@ export default defineComponent({
   components: {
     MyShows,
     SearchShows,
-    MyShowsAnchor,
+    // MyShowsAnchor,
     ShowDetails,
   },
   data() {
@@ -61,7 +60,7 @@ export default defineComponent({
       user: {
         name: "John Doe",
         shows: new Set() as Set<Show>,
-        showsProgress: new Set()as Set<ShowsProgress>,
+        showsProgress: new Set() as Set<ShowsProgress>,
       } as User,
       allShows: [] as Show[],
       showDetails: {} as Show,
@@ -141,23 +140,29 @@ li {
     text-decoration: none;
     color: #fff;
     font-weight: bold;
-    font-size: 16px; /* Adjust the font size as needed */
-    transition: color 0.3s ease; /* Add a smooth color transition */
+    font-size: 16px;
+    /* Adjust the font size as needed */
+    transition: color 0.3s ease;
+    /* Add a smooth color transition */
   }
 
   a:hover {
-    color: #ff6600; /* Change the color on hover */
+    color: #ff6600;
+    /* Change the color on hover */
   }
 }
 
 .logo {
   color: #b1aeae;
   font-weight: bold;
-  font-size: 26px; /* Adjust the font size as needed */
+  font-size: 26px;
+  /* Adjust the font size as needed */
 
   img {
-    width: 70px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
+    width: 70px;
+    /* Adjust the width as needed */
+    height: auto;
+    /* Maintain aspect ratio */
   }
 }
 
@@ -165,14 +170,18 @@ li {
 .user-section {
   display: flex;
   align-items: center;
-  gap: 10px; /* Adjust the gap between items as needed */
+  gap: 10px;
+  /* Adjust the gap between items as needed */
 }
 
 .main-content {
-  background-color: #222; /* Choose your desired dark background color */
+  background-color: #222;
+  /* Choose your desired dark background color */
   color: #fff;
-  padding: 20px; /* Adjust the padding as needed */
+  padding: 20px;
+  /* Adjust the padding as needed */
 }
+
 /* Add more specific styles for user information, login, etc. */
 
 .main {
