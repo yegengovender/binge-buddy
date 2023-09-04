@@ -1,35 +1,23 @@
 <template>
-  <ul
+  <div
     class="menu-list"
-    v-for="(s, i) in new Set(show.episodes.filter((e) => e.season === season))"
+    v-for="(episode, i) in new Set(
+      show.episodes.filter((e) => e.season === season)
+    )"
     :key="i"
   >
-    <li>
-      <a>
-        <div class="panel">
-          <div class="panel-heading">
-            Episode {{ s.number }} - {{ s.name }} <br />
-            <span class="is-size-6"> {{ s.runtime }} mins</span>
-            &nbsp;
-            <span class="tag is-success">
-              <input type="checkbox" />&nbsp;Watched
-            </span>
-          </div>
-          <div class="panel-block">
-            <div classs="block" v-html="s.summary"></div>
-          </div>
-        </div>
-      </a>
-    </li>
-  </ul>
+    <SeasonEpisode :episode="episode" @watched-episode="watchedEpisode" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Show } from "@/types/Show";
 import { defineComponent } from "vue";
+import SeasonEpisode from "@/components/SeasonEpisode.vue";
 
 export default defineComponent({
   name: "SeasonEpisodes",
+  emits: ["watchedEpisode"],
   props: {
     show: {
       type: Object as () => Show,
@@ -38,6 +26,14 @@ export default defineComponent({
     season: {
       type: Number,
       required: true,
+    },
+  },
+  components: {
+    SeasonEpisode,
+  },
+  methods: {
+    watchedEpisode(episode: any, event: any) {
+      this.$emit("watchedEpisode", episode, event.target.checked);
     },
   },
 });

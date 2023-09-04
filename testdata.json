@@ -325,3 +325,31 @@
         }
     }
 },
+
+// season
+"id": 288,
+"url": "https://www.tvmaze.com/seasons/288/the-mysteries-of-laura-season-1",
+"number": 1,
+"name": "",
+"episodeOrder": 22,
+"premiereDate": "2014-09-17",
+"endDate": "2015-05-20",
+"network": {
+    "id": 1,
+    "name": "NBC",
+    "country": {
+        "name": "United States",
+        "code": "US",
+        "timezone": "America/New_York"
+    },
+    "officialSite": "https://www.nbc.com/"
+},
+"webChannel": null,
+"image": null,
+"summary": null,
+"_links": {
+    "self": {
+        "href": "https://api.tvmaze.com/seasons/288"
+    }
+}
+}

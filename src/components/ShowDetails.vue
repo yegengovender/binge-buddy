@@ -8,21 +8,11 @@
       </header>
 
       <section class="modal-card-body">
-        <div class="card-image">
-          <figure class="image is-4by3 has-background-dark" is-ce>
-            <img
-              :src="show.imageLarge"
-              alt="Placeholder image"
-              style="width: auto; margin: 15px auto; height: 400px"
-            />
-          </figure>
-        </div>
-
         <!-- HEADER PANEL -->
         <div class="card-content">
           <div class="media">
             <div class="media-left">
-              <figure class="image is-48x48">
+              <figure class="image is-48x48 is-2by3">
                 <img :src="show.image" alt="Placeholder image" />
               </figure>
             </div>
@@ -89,7 +79,7 @@
                     Episodes - Season {{ selectedSeason }}
                   </h2>
 
-                  <SeasonEpisodes :show="show" :season="selectedSeason" />
+                  <!-- <SeasonEpisodes :show="show" :season="selectedSeason" /> -->
                 </div>
               </div>
             </div>
@@ -133,6 +123,6 @@ export default defineComponent({
       this.selectedSeason = season;
     },
   },
-  components: { SeasonEpisodes },
+  // components: { SeasonEpisodes },
 });
 </script>

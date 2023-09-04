@@ -1,10 +1,39 @@
+import { IUser } from "./IUser";
 import { Show } from "./Show";
-import { ShowsProgress } from "./ShowsProgress";
+import { TvEpisode } from "./TvEpisode";
+import { UserShow } from "./UserShow";
 
-export interface User {
+export class User implements IUser {
   name: string;
   email: string;
   loggedIn: boolean;
-  shows: Set<Show>;
-  showsProgress: Set<ShowsProgress>;
+  shows: Show[];
+  userShows: UserShow[];
+
+  constructor(name: string, email: string) {
+    this.name = name;
+    this.email = email;
+    this.loggedIn = false;
+    this.shows = [];
+    this.userShows = [];
+  }
+
+  nextEpisode(show: Show): TvEpisode | undefined {
+    const userShow = this.shows.find((s) => s.id === show.id);
+    if (!userShow) return undefined;
+
+    const showData = this.userShows.find((s) => s.showId === show.id);
+    if (!showData) return undefined;
+
+    const progress = showData.progress || [];
+
+    const nextEpisode = userShow.episodes.find((episode) => {
+      const episodeProgress = progress.find(
+        (p) => p.season === episode.season && p.episode === episode.number
+      );
+      return !episodeProgress;
+    });
+
+    return show.episodes.find((episode) => episode.id === nextEpisode?.id);
+  }
 }

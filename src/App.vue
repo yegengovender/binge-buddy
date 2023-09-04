@@ -7,7 +7,7 @@
     <nav class="main-navigation"></nav>
     <div class="user-section">
       <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
-      <CommonButton v-else @click="login">Login</CommonButton>
+      <CommonButton v-else>Login</CommonButton>
     </div>
   </header>
 
@@ -24,6 +24,7 @@
       :show-search="showSearch"
       :show-info="displayShowDetails"
       :remove-show="removeShow"
+      @watched-episode="watchedEpisode"
     />
 
     <SearchShows
@@ -40,31 +41,24 @@ import { TvService } from "@/services/TvService";
 import { UserService } from "@/services/UserService";
 import { Show } from "@/types/Show";
 import { User } from "@/types/User";
-import { ShowsProgress } from "@/types/ShowsProgress";
 import SearchShows from "@/components/SearchShows.vue";
 import MyShows from "@/components/MyShows.vue";
-import MyShowsAnchor from "@/components/MyShowsAnchor.vue";
 import ShowDetails from "@/components/ShowDetails.vue";
+import { TvEpisode } from "./types/TvEpisode";
 
 export default defineComponent({
   name: "App",
   components: {
     MyShows,
     SearchShows,
-    // MyShowsAnchor,
     ShowDetails,
   },
   data() {
     return {
       TvService,
-      user: {
-        name: "John Doe",
-        shows: new Set() as Set<Show>,
-        showsProgress: new Set() as Set<ShowsProgress>,
-      } as User,
-      allShows: [] as Show[],
+      user: new User("John Doe", "john.doe@rip.peace"),
       showDetails: {} as Show,
-      myShows: new Set() as Set<Show>,
+      myShows: [] as Show[],
       searchVisible: false,
       showDetailsVisible: false,
     };
@@ -78,7 +72,9 @@ export default defineComponent({
     },
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
+      show.seasons = await TvService.getSeasons(show.id);
       UserService.addShow(this.user, show);
+
       this.myShows = this.user.shows;
       this.showSearch(false);
     },
@@ -92,6 +88,9 @@ export default defineComponent({
     },
     hideShowDetails() {
       this.showDetailsVisible = false;
+    },
+    watchedEpisode(episode: TvEpisode, isWatched: boolean) {
+      UserService.watchedEpisode(this.user, episode, isWatched);
     },
   },
 });

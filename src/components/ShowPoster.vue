@@ -1,7 +1,7 @@
 <template>
   <div
     :style="{ backgroundImage: 'url(' + show.image + ')' }"
-    class="poster"
+    class="image is-2by3 poster"
   ></div>
 </template>
 

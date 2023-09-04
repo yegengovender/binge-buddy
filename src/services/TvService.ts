@@ -1,5 +1,6 @@
 import { Show } from "@/types/Show";
 import { TvEpisode } from "@/types/TvEpisode";
+import { Season } from "@/types/Season";
 
 export class TvService {
   private static readonly DefaultImage =
@@ -33,15 +34,31 @@ export class TvService {
   static async getEpisodes(showId: number): Promise<TvEpisode[]> {
     const data = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
     let results = await data.json();
-    results = results.map((episode: any) => TvService.toEpisodeObject(episode));
+    results = results.map((episode: any) =>
+      TvService.toEpisodeObject(episode, showId)
+    );
     return results;
   }
 
-  private static toEpisodeObject(episode: any): TvEpisode {
+  private static toEpisodeObject(episode: any, showId: number): TvEpisode {
     return {
       ...episode,
       rating: episode.rating?.average || -1,
       image: episode.image?.medium || TvService.DefaultImage,
+      showId: showId,
     } as TvEpisode;
+  }
+
+  static async getSeasons(showId: number): Promise<any[]> {
+    const data = await fetch(`https://api.tvmaze.com/shows/${showId}/seasons`);
+    let results = await data.json();
+    results = results.map((season: any) => TvService.toSeasonObject(season));
+    return results;
+  }
+
+  private static toSeasonObject(season: any): Season {
+    return {
+      ...season,
+    } as Season;
   }
 }
