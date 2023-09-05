@@ -2,25 +2,38 @@
   <div v-if="episode">
     <a>
       <div class="panel">
-        <div class="panel-heading">
-          Episode {{ episode.number }} - {{ episode.name }} <br />
-          <span class="is-size-6"> {{ episode.runtime }} mins</span>
-          &nbsp;
-          <span
-            v-if="!!episode.watchedDate"
-            class="button is-outlined is-danger"
-          >
-            Watched {{ !!episode.watchedDate }}
-
-            <input type="checkbox" @click="watchedEpisode(episode, false)" />
+        <div class="panel-heading columns">
+          <span class="column">
+            <p class="title is-5">Episode {{ episode.number }}</p>
+            <p class="subtitle is-6">
+              {{ episode.name }} {{ episode.runtime }} mins
+            </p>
           </span>
+          <span class="column">
+            <span
+              v-if="!!episode.watchedDate"
+              class="button is-outlined is-success"
+              style="min-width: 180px"
+              @pointerenter="isHover = true"
+              @pointerleave="isHover = false"
+              @click="watchedEpisode(episode, false)"
+            >
+              <span v-if="isHover"> Mark as Unwatched </span>
+              <span v-else>
+                <span class="icon mr-1"
+                  ><i class="fas fa-check has-text-success"></i
+                ></span>
+                Watched
+              </span>
+            </span>
 
-          <span
-            v-else
-            class="button is-outlined is-info"
-            @click="watchedEpisode(episode, true)"
-          >
-            Mark as Watched
+            <span
+              v-else
+              class="button is-outlined is-info"
+              @click="watchedEpisode(episode, true)"
+            >
+              Mark as Watched
+            </span>
           </span>
         </div>
         <div class="panel-block">
@@ -52,6 +65,11 @@ export default defineComponent({
       type: Object as () => TvEpisode | undefined,
       required: true,
     },
+  },
+  data() {
+    return {
+      isHover: false,
+    };
   },
 });
 </script>

@@ -2,14 +2,8 @@
   <div class="modal is-active">
     <div class="modal-background"></div>
     <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Show Details</p>
-        <button class="delete" aria-label="close" @click="closeClick"></button>
-      </header>
-
-      <section class="modal-card-body">
-        <!-- HEADER PANEL -->
-        <div class="card-content">
+      <header class="modal-card-head has-background-grey">
+        <div class="modal-card-title column">
           <div class="media">
             <div class="media-left">
               <figure class="image is-48x48 is-2by3">
@@ -18,69 +12,61 @@
             </div>
 
             <div class="media-content">
-              <p class="title is-4">{{ show.name }}</p>
-              <p class="subtitle is-6">{{ show.premiered }}</p>
+              <p class="title is-4 has-text-white-ter">{{ show.name }}</p>
+              <p class="subtitle is-6 has-text-white-ter">
+                {{ show.premiered }}
+              </p>
+              <p
+                class="container is-size-7 has-text-grey-lighter"
+                v-html="show.summary"
+              ></p>
             </div>
           </div>
+        </div>
 
-          <!-- TABS -->
-          <div class="card-content">
-            <div class="tabs is-fullwidth is-active is-toggle">
-              <ul>
-                <li
-                  @click="setTab('summary')"
-                  :class="currentTab === 'summary' ? 'is-active' : ''"
-                >
-                  <a>Summary</a>
-                </li>
-                <li
-                  @click="setTab('episodes')"
-                  :class="currentTab === 'episodes' ? 'is-active' : ''"
-                >
-                  <a>Episodes</a>
-                </li>
-              </ul>
-            </div>
+        <button class="delete" aria-label="close" @click="closeClick"></button>
+      </header>
 
-            <!-- Summary -->
-            <div
-              v-if="currentTab === 'summary'"
-              class="has-text-grey"
-              v-html="show.summary"
-            ></div>
+      <section class="modal-card-body has-background-white-ter">
+        <!-- TABS -->
+        <div class="card-content">
+          <h1 class="title">Episodes</h1>
 
-            <!-- Episodes -->
-            <div v-if="currentTab === 'episodes'" class="has-text-grey">
-              <div class="columns">
-                <div class="column is-one-quarter block menu">
-                  <h2 class="has-text=weight-bold is-size-6 menu-label">
-                    Seasons
-                  </h2>
+          <!-- Episodes -->
+          <div class="has-text-grey">
+            <div class="columnsx">
+              <!-- Seasons List -->
+              <div class="level is-one-quarter block menu">
+                <div class="level-left">
+                  <li class="level-item">
+                    <span class="level-item title is-5">Seasons</span>
+                  </li>
 
-                  <ul
+                  <div
                     class="menu-list"
                     v-for="(s, i) in new Set(
                       show.episodes.map((e) => e.season)
                     )"
                     :key="i"
                   >
-                    <li>
+                    <li class="level-item">
                       <a
                         @click="setSeason(s)"
                         :class="s === selectedSeason ? 'is-active' : ''"
                         >{{ s }}</a
                       >
                     </li>
-                  </ul>
+                  </div>
                 </div>
+              </div>
 
-                <div class="column menu">
-                  <h2 class="has-text=weight-bold is-size-6 menu-label">
-                    Episodes - Season {{ selectedSeason }}
-                  </h2>
+              <!-- Season Episodes -->
+              <div class="column menu">
+                <h2 class="has-text=weight-bold is-size-6 menu-label">
+                  Episodes - Season {{ selectedSeason }}
+                </h2>
 
-                  <SeasonEpisodes :show="show" :season="selectedSeason" />
-                </div>
+                <SeasonEpisodes :show="show" :season="selectedSeason" />
               </div>
             </div>
           </div>

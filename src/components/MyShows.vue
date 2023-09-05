@@ -1,73 +1,58 @@
 <template>
-  <nav class="panel has-background-grey-light">
-    <p class="panel-heading">
-      My Shows
-      <CommonButton @click="showSearch(true)"> Add a show </CommonButton>
-    </p>
+  <nav class="card has-background-grey-lighter">
+    <div class="card-header has-background-grey has-text-white-ter">
+      <p class="card-header-title is-4">
+        My Shows
+        <span class="card-header-icon">
+          <CommonButton @click="showSearch(true)"> Add a show </CommonButton>
+        </span>
+      </p>
+    </div>
 
     <div class="panel-block">
-      <div v-for="show in (shows as Show[])" :key="show.id">
-        <div class="media">
-          <figure class="media-left">
-            <ShowPoster :show="show" />
-          </figure>
+      <div>
+        <div v-for="show in (shows as Show[])" :key="show.id">
+          <div class="media">
+            <figure class="media-left">
+              <ShowPoster :show="show" />
+            </figure>
 
-          <div class="media-content">
-            <div class="content">
-              <h2 class="x-show-name">{{ show.name }}</h2>
+            <div class="media-content">
+              <div class="content">
+                <h2 class="x-show-name">{{ show.name }}</h2>
 
-              <div>
-                {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
+                <div>
+                  {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
+                </div>
+
+                <div>{{ show.episodes.length }} Episodes</div>
+
+                <h4>Next Episode:</h4>
+                <h5>
+                  <SeasonEpisode :episode="show.nextEpisode" />
+                </h5>
               </div>
 
-              <div>{{ show.episodes.length }} Episodes</div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <div class="control-box">
+                    <CommonButton @click="showInfo(show)"
+                      >More Info</CommonButton
+                    >
+                  </div>
 
-              <h4>Next Episode:</h4>
-              <h5>
-                <SeasonEpisode :episode="show.nextEpisode" />
-              </h5>
+                  <div class="control-box">
+                    <CommonButton @click="removeShow(show)" :is-secondary="true"
+                      >Remove</CommonButton
+                    >
+                  </div>
+                </div>
+              </nav>
             </div>
-            <nav class="level is-mobile">
-              <div class="level-left">
-                <div class="control-box">
-                  <CommonButton @click="showInfo(show)">More Info</CommonButton>
-                </div>
-
-                <div class="control-box">
-                  <CommonButton @click="removeShow(show)" :is-secondary="true"
-                    >Remove</CommonButton
-                  >
-                </div>
-              </div>
-            </nav>
           </div>
         </div>
       </div>
 
-      <!-- <div
-        v-for="show in (shows as Set<Show>)"
-        :key="show.id"
-        class="show-info"
-      >
-        <ShowPoster :show="show" />
-        <h2 class="show-name">{{ show.name }}</h2>
-
-        <div>
-          {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
-        </div>
-
-        <div>{{ show.episodes.length }} Episodes</div>
-
-        <div class="control-box">
-          <CommonButton @click="showInfo(show)">More Info</CommonButton>
-        </div>
-
-        <div class="control-box">
-          <CommonButton @click="removeShow(show)" :is-secondary="true"
-            >Remove</CommonButton
-          >
-        </div>
-      </div> -->
       <div v-if="shows.length === 0">No shows yet</div>
     </div>
   </nav>

@@ -1,7 +1,7 @@
 <template>
-  <button class="{{ isSecondary? button : secondary-button }}">
+  <span :class="[isSecondary ? 'is-warning' : 'is-primary', 'button']">
     <slot></slot>
-  </button>
+  </span>
 </template>
 
 <script lang="ts">
@@ -28,45 +28,45 @@ $header-footer-bg-color: #333; // Header and footer background color (slightly l
 $input-field-bg-color: #444; // Input field background color (dark)
 
 // Button styles
-.button {
-  display: inline-block;
-  padding: 10px 20px; // Adjust padding as needed
-  background-color: $primary-accent-color;
-  color: $text-color;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  border-radius: 5px;
-  margin-right: 10px;
+// .button {
+//   display: inline-block;
+//   padding: 10px 20px; // Adjust padding as needed
+//   background-color: $primary-accent-color;
+//   color: $text-color;
+//   border: none;
+//   cursor: pointer;
+//   font-weight: bold;
+//   text-align: center;
+//   text-decoration: none;
+//   transition: background-color 0.3s ease;
+//   border-radius: 5px;
+//   margin-right: 10px;
 
-  &:hover {
-    background-color: darken(
-      $primary-accent-color,
-      10%
-    ); // Darken the color on hover
-  }
-}
+//   &:hover {
+//     background-color: darken(
+//       $primary-accent-color,
+//       10%
+//     ); // Darken the color on hover
+//   }
+// }
 
-.secondary-button {
-  display: inline-block;
-  padding: 10px 20px; // Adjust padding as needed
-  background-color: $secondary-accent-color;
-  color: $text-color;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+// .secondary-button {
+//   display: inline-block;
+//   padding: 10px 20px; // Adjust padding as needed
+//   background-color: $secondary-accent-color;
+//   color: $text-color;
+//   border: none;
+//   cursor: pointer;
+//   font-weight: bold;
+//   text-align: center;
+//   text-decoration: none;
+//   transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: darken(
-      $secondary-accent-color,
-      10%
-    ); // Darken the color on hover
-  }
-}
+//   &:hover {
+//     background-color: darken(
+//       $secondary-accent-color,
+//       10%
+//     ); // Darken the color on hover
+//   }
+// }
 </style>
