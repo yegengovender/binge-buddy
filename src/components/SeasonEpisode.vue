@@ -6,11 +6,11 @@
           Episode {{ episode.number }} - {{ episode.name }} <br />
           <span class="is-size-6"> {{ episode.runtime }} mins</span>
           &nbsp;
-          <span class="tag is-success">
-            <input
-              type="checkbox"
-              @change="$emit('watchedEpisode', episode, $event)"
-            />&nbsp;Watched
+          <span v-if="episode.watchedDate" class="button is-info is-outlined">
+            <i class="fas fa-check">Wacthed</i>
+          </span>
+          <span v-else class="button is-info is-outlined">
+            Mark as Wacthed
           </span>
         </div>
         <div class="panel-block">
