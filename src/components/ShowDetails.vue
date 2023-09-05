@@ -79,7 +79,7 @@
                     Episodes - Season {{ selectedSeason }}
                   </h2>
 
-                  <!-- <SeasonEpisodes :show="show" :season="selectedSeason" /> -->
+                  <SeasonEpisodes :show="show" :season="selectedSeason" />
                 </div>
               </div>
             </div>
@@ -123,6 +123,6 @@ export default defineComponent({
       this.selectedSeason = season;
     },
   },
-  // components: { SeasonEpisodes },
+  components: { SeasonEpisodes },
 });
 </script>

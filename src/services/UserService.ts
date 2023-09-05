@@ -2,6 +2,7 @@ import { Show } from "@/types/Show";
 import { TvEpisode } from "@/types/TvEpisode";
 import { User } from "@/types/User";
 import { UserShow } from "@/types/UserShow";
+import { UserShowsService } from "./UserShowsService";
 
 export class UserService {
   static addShow(user: User, show: Show) {
@@ -19,29 +20,14 @@ export class UserService {
   }
 
   private static nextEpisode(user: User, show: Show): TvEpisode | undefined {
-    console.log("trying next", user);
-    const userShow = user.shows.find((s) => s.id === show.id);
+    const userShow = UserShowsService.getUserShow(user, show.id);
     if (!userShow) {
-      console.log("no user show");
-      return undefined;
+      return;
     }
 
-    const showData = user.userShows.find((s) => s.showId === show.id);
-    if (!showData) {
-      console.log("no show data");
-      return undefined;
-    }
-
-    const progress = showData.progress || [];
-
-    const nextEpisode = showData.progress
-      ? userShow.episodes.find(
-          (episode) =>
-            !progress.find(
-              (p) => p.season === episode.season && p.episode === episode.number
-            )
-        )
-      : userShow.episodes[0];
+    const nextEpisode = userShow.episodes.find(
+      (episode) => episode.watchedDate === undefined
+    );
 
     console.log("next--->", nextEpisode);
     return nextEpisode;
@@ -60,22 +46,14 @@ export class UserService {
   }
 
   static watchedEpisode(user: User, episode: TvEpisode, isWatched: boolean) {
-    const userShow = user.userShows.find(
-      (userShow) => userShow.showId === episode.showId
-    ) as UserShow;
-    userShow.progress = userShow.progress || [];
-    userShow.progress.push({
-      show: episode.showId,
-      season: episode.season,
-      episode: episode.number,
-      updated: new Date(),
-    });
+    const userShow = UserShowsService.getUserShow(user, episode.showId);
+    if (!userShow) return;
 
-    const show = user.shows.find((s) => s.id === episode.showId);
-    if (!show) return;
+    const userEpisode = userShow.episodes.find((e) => e.id === episode.id);
+    if (!userEpisode) return;
 
-    (user.shows.find((s) => s.id === show.id) as Show).nextEpisode =
-      UserService.nextEpisode(user, show);
-    console.log(user);
+    userEpisode.watchedDate = isWatched ? new Date() : undefined;
+    userShow.nextEpisode = UserService.nextEpisode(user, userShow);
+    console.log("watched -->", userEpisode, isWatched);
   }
 }

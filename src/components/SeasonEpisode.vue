@@ -1,16 +1,26 @@
 <template>
-  <div>
+  <div v-if="episode">
     <a>
       <div class="panel">
         <div class="panel-heading">
           Episode {{ episode.number }} - {{ episode.name }} <br />
           <span class="is-size-6"> {{ episode.runtime }} mins</span>
           &nbsp;
-          <span class="tag is-success">
-            <input
-              type="checkbox"
-              @change="$emit('watchedEpisode', episode, $event)"
-            />&nbsp;Watched
+          <span
+            v-if="!!episode.watchedDate"
+            class="button is-outlined is-danger"
+          >
+            Watched {{ !!episode.watchedDate }}
+
+            <input type="checkbox" @click="watchedEpisode(episode, false)" />
+          </span>
+
+          <span
+            v-else
+            class="button is-outlined is-info"
+            @click="watchedEpisode(episode, true)"
+          >
+            Mark as Watched
           </span>
         </div>
         <div class="panel-block">
@@ -23,14 +33,23 @@
 
 <script lang="ts">
 import { TvEpisode } from "@/types/TvEpisode";
-import { defineComponent, vModelCheckbox } from "vue";
+import { defineComponent, inject } from "vue";
 
 export default defineComponent({
   name: "SeasonEpisode",
-  emits: ["watchedEpisode"],
+  setup() {
+    const app_watchedEpisode = inject("app_watchedEpisode") as (
+      episode: TvEpisode,
+      isWatched: boolean
+    ) => void | undefined;
+    const watchedEpisode = (episode: TvEpisode, watched: boolean) => {
+      app_watchedEpisode(episode, watched);
+    };
+    return { watchedEpisode };
+  },
   props: {
     episode: {
-      type: Object as () => TvEpisode,
+      type: Object as () => TvEpisode | undefined,
       required: true,
     },
   },

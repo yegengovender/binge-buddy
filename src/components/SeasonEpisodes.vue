@@ -6,7 +6,7 @@
     )"
     :key="i"
   >
-    <SeasonEpisode :episode="episode" @watched-episode="watchedEpisode" />
+    <SeasonEpisode :episode="episode" />
   </div>
 </template>
 
@@ -30,11 +30,6 @@ export default defineComponent({
   },
   components: {
     SeasonEpisode,
-  },
-  methods: {
-    watchedEpisode(episode: any, event: any) {
-      this.$emit("watchedEpisode", episode, event.target.checked);
-    },
   },
 });
 </script>

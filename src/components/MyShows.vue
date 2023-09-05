@@ -24,19 +24,8 @@
 
               <h4>Next Episode:</h4>
               <h5>
-                <SeasonEpisode
-                  :episode="show.nextEpisode"
-                  @watched-episode="watchedEpisode"
-                />
+                <SeasonEpisode :episode="show.nextEpisode" />
               </h5>
-              <!-- 
-              <SeasonEpisodes
-                :show="show"
-                :season="1"
-                @watched-episode="watchedEpisode"
-              /> -->
-
-              <!-- <SeasonEpisode :episode="user.nextEpisode" /> -->
             </div>
             <nav class="level is-mobile">
               <div class="level-left">
@@ -125,8 +114,8 @@ export default defineComponent({
     // SeasonEpisodes,
   },
   methods: {
-    watchedEpisode(episode: any, val: any) {
-      this.$emit("watchedEpisode", episode, val);
+    watchedEpisode(episode: any, isWatched: boolean) {
+      this.$emit("watchedEpisode", episode, isWatched);
     },
   },
 });

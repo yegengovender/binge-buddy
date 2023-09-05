@@ -24,7 +24,6 @@
       :show-search="showSearch"
       :show-info="displayShowDetails"
       :remove-show="removeShow"
-      @watched-episode="watchedEpisode"
     />
 
     <SearchShows
@@ -44,6 +43,7 @@ import { User } from "@/types/User";
 import SearchShows from "@/components/SearchShows.vue";
 import MyShows from "@/components/MyShows.vue";
 import ShowDetails from "@/components/ShowDetails.vue";
+import CommonButton from "@/components/Button.vue";
 import { TvEpisode } from "./types/TvEpisode";
 
 export default defineComponent({
@@ -52,6 +52,7 @@ export default defineComponent({
     MyShows,
     SearchShows,
     ShowDetails,
+    CommonButton,
   },
   data() {
     return {
@@ -92,6 +93,11 @@ export default defineComponent({
     watchedEpisode(episode: TvEpisode, isWatched: boolean) {
       UserService.watchedEpisode(this.user, episode, isWatched);
     },
+  },
+  provide() {
+    return {
+      app_watchedEpisode: this.watchedEpisode,
+    };
   },
 });
 </script>

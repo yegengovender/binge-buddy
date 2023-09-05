@@ -9,4 +9,5 @@ export interface TvEpisode {
   image: string;
   summary: string;
   showId: number;
+  watchedDate?: Date;
 }
