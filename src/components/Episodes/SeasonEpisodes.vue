@@ -13,7 +13,7 @@
 <script lang="ts">
 import { Show } from "@/types/Show";
 import { defineComponent } from "vue";
-import SeasonEpisode from "@/components/SeasonEpisode.vue";
+import SeasonEpisode from "@/components/Episodes/SeasonEpisode.vue";
 
 export default defineComponent({
   name: "SeasonEpisodes",

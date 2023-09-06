@@ -31,8 +31,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import ShowPoster from "@/components/ShowPoster.vue";
 import { Show } from "@/types/Show";
+import ShowPoster from "@/components/Shows/ShowPoster.vue";
 import CommonButton from "@/components/Button.vue";
 
 export default defineComponent({

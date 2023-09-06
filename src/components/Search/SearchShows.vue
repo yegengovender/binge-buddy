@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SearchResults from "./SearchResults.vue";
+import SearchResults from "@/components/Search/SearchResults.vue";
 import { Show } from "@/types/Show";
 
 export default defineComponent({

@@ -1,7 +1,6 @@
 import { Show } from "@/types/Show";
 import { TvEpisode } from "@/types/TvEpisode";
 import { User } from "@/types/User";
-import { UserShow } from "@/types/UserShow";
 import { UserShowsService } from "./UserShowsService";
 
 export class UserService {

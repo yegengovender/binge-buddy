@@ -39,6 +39,7 @@ export class TvService {
     return results;
   }
 
+  // eslint-disable-next-line-no-any
   private static toEpisodeObject(episode: any, showId: number): TvEpisode {
     return {
       ...episode,
@@ -56,6 +57,7 @@ export class TvService {
     return results;
   }
 
+  // eslint-disable-next-line
   private static toSeasonObject(season: any): Season {
     return {
       ...season,

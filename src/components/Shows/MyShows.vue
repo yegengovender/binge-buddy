@@ -62,12 +62,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { Show } from "@/types/Show";
-import ShowPoster from "@/components/ShowPoster.vue";
-import CommonButton from "@/components/Button.vue";
-import SeasonEpisodes from "./SeasonEpisodes.vue";
-import SeasonEpisode from "./SeasonEpisode.vue";
 import { User } from "@/types/User";
+import { Show } from "@/types/Show";
+import ShowPoster from "@/components/Shows/ShowPoster.vue";
+import CommonButton from "@/components/Button.vue";
+import SeasonEpisode from "@/components/Episodes/SeasonEpisode.vue";
 
 export default defineComponent({
   name: "MyShows",

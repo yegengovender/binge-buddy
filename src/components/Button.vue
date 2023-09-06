@@ -1,5 +1,5 @@
 <template>
-  <span :class="[isSecondary ? 'is-warning' : 'is-primary', 'button']">
+  <span :class="[isSecondary ? 'is-warning' : 'is-info', 'button', 'isLight']">
     <slot></slot>
   </span>
 </template>

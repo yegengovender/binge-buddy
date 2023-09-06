@@ -1,18 +1,19 @@
 <template>
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <nav
+    class="navbar is-dark is-transparent"
+    role="navigation"
+    aria-label="main navigation"
+  >
     <div class="navbar-brand">
-      <div class="navbar-item logo has-text-white-bis">
-        BINGE BUDDY
-        <!-- <img src="logo.png" alt="Logo" /> -->
-      </div>
+      <div class="navbar-item logo has-text-white-bis">BINGE BUDDY</div>
     </div>
 
     <div class="navbar-menu is-active">
       <div class="navbar-start"></div>
 
-      <div class="navbar-end is-fullwidth">
-        <a class="navbar-item is-fullwidth">
-          <div class="navbar-item">
+      <div class="navbar-end">
+        <a class="navbar-item is-expanded">
+          <div class="navbar-item is-expanded">
             <SearchShows
               v-if="searchVisible === true"
               :search-method="TvService.doSearch"
@@ -28,34 +29,14 @@
           </span>
         </a>
         <div class="navbar-item user-section">
-          <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
-          <CommonButton v-else>Login</CommonButton>
+          <CommonButton v-if="user && user.loggedIn">{{
+            user.name
+          }}</CommonButton>
+          <CommonButton v-else @click="login">Login</CommonButton>
         </div>
       </div>
     </div>
   </nav>
-
-  <!-- <nav class="navbar has-background-grey-dark px-4">
-    <div class="level-left">
-      <div class="level-item logo has-text-white-bis">
-        BINGE BUDDY
-      </div>
-    </div>
-
-    <div class="level-right">
-      <div class="level-item search-section">
-        <SearchShows
-          v-if="searchVisible === true"
-          :search-method="TvService.doSearch"
-          :add-to-my-shows="addToMyShows"
-        />
-      </div>
-      <div class="level-item user-section">
-        <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
-        <CommonButton v-else>Login</CommonButton>
-      </div>
-    </div>
-  </nav> -->
 
   <div class="main-content has-background-grey-darker section">
     <ShowDetails
@@ -76,15 +57,17 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { TvService } from "@/services/TvService";
-import { UserService } from "@/services/UserService";
 import { Show } from "@/types/Show";
 import { User } from "@/types/User";
-import SearchShows from "@/components/SearchShows.vue";
-import MyShows from "@/components/MyShows.vue";
-import ShowDetails from "@/components/ShowDetails.vue";
-import CommonButton from "@/components/Button.vue";
 import { TvEpisode } from "./types/TvEpisode";
+
+import { TvService } from "@/services/TvService";
+import { UserService } from "@/services/UserService";
+
+import SearchShows from "@/components/Search/SearchShows.vue";
+import MyShows from "@/components/Shows/MyShows.vue";
+import ShowDetails from "@/components/Shows/ShowDetails.vue";
+import CommonButton from "@/components/Button.vue";
 
 export default defineComponent({
   name: "App",
@@ -97,7 +80,7 @@ export default defineComponent({
   data() {
     return {
       TvService,
-      user: new User("John Doe", "john.doe@rip.peace"),
+      user: {} as User,
       showDetails: {} as Show,
       myShows: [] as Show[],
       searchVisible: false,
@@ -105,6 +88,11 @@ export default defineComponent({
     };
   },
   methods: {
+    login() {
+      this.user = new User("John Doe", "john.doe@rip.peace");
+      this.user.loggedIn = true;
+      this.myShows = this.user.shows;
+    },
     showSearch(isVisible: boolean) {
       this.searchVisible = isVisible;
     },
@@ -172,6 +160,13 @@ li {
   font-weight: bold;
   font-size: 26px;
   /* Adjust the font size as needed */
+  display: inline-block;
+  border: solid rgb(153, 164, 199);
+  border-width: 0 15px 18px 15px;
+  border-radius: 6px 6px 3px 3px;
+  padding: 8px 12px;
+  margin: 10px;
+  background-color: #3c4349;
 
   img {
     width: 70px;
@@ -181,43 +176,11 @@ li {
   }
 }
 
-/* Style the user/login section */
-.user-section {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  /* Adjust the gap between items as needed */
-}
-
 .main-content {
   background-color: #222;
   /* Choose your desired dark background color */
   color: #fff;
   padding: 20px;
   /* Adjust the padding as needed */
-}
-
-/* Add more specific styles for user information, login, etc. */
-
-.main {
-  position: absolute;
-  margin: 0;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  display: grid;
-  grid-template-rows: 80px 1fr;
-}
-
-.logo {
-  display: inline-block;
-  border: solid rgb(153, 164, 199);
-  border-width: 0 15px 18px 15px;
-  border-radius: 6px 6px 3px 3px;
-  padding: 8px 12px;
-  margin: 10px;
-  background-color: #3c4349;
 }
 </style>
