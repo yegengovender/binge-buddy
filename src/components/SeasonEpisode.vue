@@ -2,41 +2,46 @@
   <div v-if="episode">
     <a>
       <div class="panel">
-        <div class="panel-heading columns">
-          <span class="column">
-            <p class="title is-5">Episode {{ episode.number }}</p>
-            <p class="subtitle is-6">
-              {{ episode.name }} {{ episode.runtime }} mins
-            </p>
-          </span>
-          <span class="column">
-            <span
-              v-if="!!episode.watchedDate"
-              class="button is-outlined is-success"
-              style="min-width: 180px"
-              @pointerenter="isHover = true"
-              @pointerleave="isHover = false"
-              @click="watchedEpisode(episode, false)"
-            >
-              <span v-if="isHover"> Mark as Unwatched </span>
-              <span v-else>
-                <span class="icon mr-1"
+        <div class="panel-heading has-background-grey-dark">
+          <div class="columns">
+            <span class="column">
+              <p class="title is-5 has-text-grey-light">
+                Episode {{ episode.number }}
+                <span v-if="!!episode.watchedDate" class="icon mr-1"
                   ><i class="fas fa-check has-text-success"></i
                 ></span>
-                Watched
+              </p>
+              <p class="subtitle is-6 has-text-grey-lighter">
+                {{ episode.name }} ( {{ episode.runtime }} mins )
+              </p>
+            </span>
+            <span class="column">
+              <span
+                v-if="!!episode.watchedDate"
+                class="button is-outlined is-pulled-right"
+                :class="isHover ? 'is-danger' : 'is-success'"
+                style="min-width: 180px"
+                @pointerenter="isHover = true"
+                @pointerleave="isHover = false"
+                @click="watchedEpisode(episode, false)"
+              >
+                <span v-if="isHover"> Mark as Unwatched </span>
+                <span v-else> Mark as Unwatched </span>
+              </span>
+
+              <span
+                v-else
+                class="button is-outlined is-info is-pulled-right"
+                style="min-width: 180px"
+                @click="watchedEpisode(episode, true)"
+              >
+                Mark as Watched
               </span>
             </span>
-
-            <span
-              v-else
-              class="button is-outlined is-info"
-              @click="watchedEpisode(episode, true)"
-            >
-              Mark as Watched
-            </span>
-          </span>
+          </div>
         </div>
-        <div class="panel-block">
+
+        <div class="panel-block has-background-grey-lighter">
           <div classs="block" v-html="episode.summary"></div>
         </div>
       </div>

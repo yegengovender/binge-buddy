@@ -2,41 +2,30 @@
   <div class="modal is-active">
     <div class="modal-background"></div>
     <div class="modal-card">
-      <header class="modal-card-head has-background-grey">
+      <header class="modal-card-head has-background-grey-dark">
         <div class="modal-card-title column">
-          <div class="media">
+          <div class="media block">
             <div class="media-left">
-              <figure class="image is-48x48 is-2by3">
+              <p class="title is-4 has-text-white-ter">{{ show.name }}</p>
+              <p class="subtitle is-6 has-text-white-ter">
+                {{ show.premiered }}
+              </p>
+
+              <figure class="block image is-48x48px is-2by3">
                 <img :src="show.image" alt="Placeholder image" />
               </figure>
             </div>
 
             <div class="media-content">
-              <p class="title is-4 has-text-white-ter">{{ show.name }}</p>
-              <p class="subtitle is-6 has-text-white-ter">
-                {{ show.premiered }}
-              </p>
               <p
-                class="container is-size-7 has-text-grey-lighter"
+                class="container block is-size-7 has-text-grey-lighter"
                 v-html="show.summary"
               ></p>
-            </div>
-          </div>
-        </div>
 
-        <button class="delete" aria-label="close" @click="closeClick"></button>
-      </header>
-
-      <section class="modal-card-body has-background-white-ter">
-        <!-- TABS -->
-        <div class="card-content">
-          <h1 class="title">Episodes</h1>
-
-          <!-- Episodes -->
-          <div class="has-text-grey">
-            <div class="columnsx">
               <!-- Seasons List -->
-              <div class="level is-one-quarter block menu">
+              <div
+                class="level is-one-quarter block menu has-background-grey-light"
+              >
                 <div class="level-left">
                   <li class="level-item">
                     <span class="level-item title is-5">Seasons</span>
@@ -59,21 +48,30 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
 
-              <!-- Season Episodes -->
-              <div class="column menu">
-                <h2 class="has-text=weight-bold is-size-6 menu-label">
-                  Episodes - Season {{ selectedSeason }}
-                </h2>
+        <button class="delete" aria-label="close" @click="closeClick"></button>
+      </header>
 
-                <SeasonEpisodes :show="show" :season="selectedSeason" />
-              </div>
+      <section class="modal-card-body has-background-grey">
+        <div class="card-content">
+          <!-- Episodes -->
+          <div class="columns">
+            <!-- Season Episodes -->
+            <div class="column menu">
+              <h2 class="has-text-white title is-size-6 menu-label">
+                Episodes - Season {{ selectedSeason }}
+              </h2>
+
+              <SeasonEpisodes :show="show" :season="selectedSeason" />
             </div>
           </div>
         </div>
       </section>
 
-      <footer class="modal-card-foot"></footer>
+      <footer class="modal-card-foot has-background-grey"></footer>
     </div>
   </div>
 </template>

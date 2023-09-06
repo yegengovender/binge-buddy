@@ -14,23 +14,16 @@
         <div v-for="show in (shows as Show[])" :key="show.id">
           <div class="media">
             <figure class="media-left">
+              <h2 class="title is-3">{{ show.name }}</h2>
+
               <ShowPoster :show="show" />
-            </figure>
 
-            <div class="media-content">
-              <div class="content">
-                <h2 class="x-show-name">{{ show.name }}</h2>
+              <div class="title is-5">
+                {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
+              </div>
 
-                <div>
-                  {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
-                </div>
-
-                <div>{{ show.episodes.length }} Episodes</div>
-
-                <h4>Next Episode:</h4>
-                <h5>
-                  <SeasonEpisode :episode="show.nextEpisode" />
-                </h5>
+              <div class="subtitle is-6">
+                {{ show.episodes.length }} Episodes
               </div>
 
               <nav class="level is-mobile">
@@ -48,6 +41,15 @@
                   </div>
                 </div>
               </nav>
+            </figure>
+
+            <div class="media-content">
+              <div class="content">
+                <h4 class="title is-5 has-text-grey">Next Episode:</h4>
+                <h5>
+                  <SeasonEpisode :episode="show.nextEpisode" />
+                </h5>
+              </div>
             </div>
           </div>
         </div>
