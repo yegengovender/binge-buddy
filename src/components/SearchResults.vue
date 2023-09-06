@@ -5,9 +5,9 @@
     class="result-item"
     :class="index % 2 == 0 ? 'even-row' : 'odd-row'"
   >
-    <a class="panel-block">
+    <a class="panel-block dropdown-item">
       <div class="show-info">
-        <ShowPoster :show="show" />
+        <ShowPoster :show="show" class="is-96x96px" />
 
         <h2 class="show-name">{{ index % 2 }} {{ show.name }}</h2>
 
@@ -54,7 +54,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .result-item {
   .show-image {
-    height: 200px;
+    height: 100px;
   }
 
   &.even-row {

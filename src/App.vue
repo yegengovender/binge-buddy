@@ -1,17 +1,63 @@
 <template>
-  <header class="top-bar">
-    <div class="logo">
-      BINGE BUDDY
-      <!-- <img src="logo.png" alt="Logo" /> -->
+  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <div class="navbar-item logo has-text-white-bis">
+        BINGE BUDDY
+        <!-- <img src="logo.png" alt="Logo" /> -->
+      </div>
     </div>
-    <nav class="main-navigation"></nav>
-    <div class="user-section">
-      <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
-      <CommonButton v-else>Login</CommonButton>
-    </div>
-  </header>
 
-  <div class="main-content">
+    <div class="navbar-menu is-active">
+      <div class="navbar-start"></div>
+
+      <div class="navbar-end is-fullwidth">
+        <a class="navbar-item is-fullwidth">
+          <div class="navbar-item">
+            <SearchShows
+              v-if="searchVisible === true"
+              :search-method="TvService.doSearch"
+              :add-to-my-shows="addToMyShows"
+            />
+          </div>
+          <span
+            @click="showSearch(!searchVisible)"
+            class="navbar-item icon is-large has-text-white-bis"
+          >
+            <i v-if="searchVisible === true" class="fas fa-times-circle"></i>
+            <i v-else class="fas fa-search"></i>
+          </span>
+        </a>
+        <div class="navbar-item user-section">
+          <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
+          <CommonButton v-else>Login</CommonButton>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <nav class="navbar has-background-grey-dark px-4">
+    <div class="level-left">
+      <div class="level-item logo has-text-white-bis">
+        BINGE BUDDY
+      </div>
+    </div>
+
+    <div class="level-right">
+      <div class="level-item search-section">
+        <SearchShows
+          v-if="searchVisible === true"
+          :search-method="TvService.doSearch"
+          :add-to-my-shows="addToMyShows"
+        />
+      </div>
+      <div class="level-item user-section">
+        <CommonButton v-if="user.loggedIn">{{ user.name }}</CommonButton>
+        <CommonButton v-else>Login</CommonButton>
+      </div>
+    </div>
+  </nav> -->
+
+  <div class="main-content has-background-grey-darker section">
     <ShowDetails
       v-if="showDetailsVisible"
       :show="showDetails"
@@ -24,12 +70,6 @@
       :show-search="showSearch"
       :show-info="displayShowDetails"
       :remove-show="removeShow"
-    />
-
-    <SearchShows
-      v-if="searchVisible === true"
-      :search-method="TvService.doSearch"
-      :add-to-my-shows="addToMyShows"
     />
   </div>
 </template>
@@ -127,38 +167,8 @@ li {
   color: #b7bcc1;
 }
 
-.top-bar {
-  background-color: #333;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-
-  ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-  }
-
-  a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    font-size: 16px;
-    /* Adjust the font size as needed */
-    transition: color 0.3s ease;
-    /* Add a smooth color transition */
-  }
-
-  a:hover {
-    color: #ff6600;
-    /* Change the color on hover */
-  }
-}
-
 .logo {
-  color: #b1aeae;
+  // color: #b1aeae;
   font-weight: bold;
   font-size: 26px;
   /* Adjust the font size as needed */
@@ -203,7 +213,7 @@ li {
 
 .logo {
   display: inline-block;
-  border: solid rgb(116, 124, 148);
+  border: solid rgb(153, 164, 199);
   border-width: 0 15px 18px 15px;
   border-radius: 6px 6px 3px 3px;
   padding: 8px 12px;

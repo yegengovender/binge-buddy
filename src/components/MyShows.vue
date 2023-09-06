@@ -78,7 +78,7 @@ export default defineComponent({
       required: true,
     },
     showInfo: {
-      type: Function as any,
+      type: Function,
       required: true,
     },
     removeShow: {

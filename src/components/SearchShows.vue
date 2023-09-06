@@ -1,10 +1,9 @@
 <template>
-  <nav class="panel has-background-grey-light">
-    <p class="panel-heading">Add a show</p>
-    <div class="panel-block">
+  <nav class="dropdown is-active">
+    <div class="dropdown-trigger">
       <p class="control has-icons-left">
         <input
-          class="input is-large"
+          class="input"
           type="text"
           id="search-shows"
           placeholder="What are you watching today?"
@@ -13,8 +12,10 @@
         />
       </p>
     </div>
-    <div v-if="results.length">
-      <SearchResults :results="results" :add-to-my-shows="addSelectedShow" />
+    <div v-if="results.length" class="dropdown-menu" id="search-results">
+      <div class="dropdown-content">
+        <SearchResults :results="results" :add-to-my-shows="addSelectedShow" />
+      </div>
     </div>
   </nav>
 </template>
