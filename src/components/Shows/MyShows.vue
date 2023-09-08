@@ -97,7 +97,6 @@ export default defineComponent({
     ShowPoster,
     CommonButton,
     SeasonEpisode,
-    // SeasonEpisodes,
   },
   methods: {
     watchedEpisode(episode: any, isWatched: boolean) {

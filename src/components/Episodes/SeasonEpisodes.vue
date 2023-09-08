@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts">
-import { Show } from "@/types/Show";
 import { defineComponent } from "vue";
+import { Show } from "@/types/Show";
 import SeasonEpisode from "@/components/Episodes/SeasonEpisode.vue";
 
 export default defineComponent({

@@ -6,8 +6,8 @@
 </template>
 
 <script lang="ts">
-import { Show } from "@/types/Show";
 import { defineComponent } from "vue";
+import { Show } from "@/types/Show";
 
 export default defineComponent({
   name: "ShowPoster",

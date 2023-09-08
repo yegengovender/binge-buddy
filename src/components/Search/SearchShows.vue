@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import SearchResults from "@/components/Search/SearchResults.vue";
 import { Show } from "@/types/Show";
+import SearchResults from "@/components/Search/SearchResults.vue";
 
 export default defineComponent({
   name: "SearchShows",

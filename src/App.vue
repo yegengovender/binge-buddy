@@ -63,6 +63,7 @@ import { TvEpisode } from "./types/TvEpisode";
 
 import { TvService } from "@/services/TvService";
 import { UserService } from "@/services/UserService";
+import { UserShowService } from "@/services/UserShowService";
 
 import SearchShows from "@/components/Search/SearchShows.vue";
 import MyShows from "@/components/Shows/MyShows.vue";
@@ -89,8 +90,7 @@ export default defineComponent({
   },
   methods: {
     login() {
-      this.user = new User("John Doe", "john.doe@rip.peace");
-      this.user.loggedIn = true;
+      this.user = UserService.login("John Doe", "john.doe@rip.peace");
       this.myShows = this.user.shows;
     },
     showSearch(isVisible: boolean) {
@@ -102,13 +102,13 @@ export default defineComponent({
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
       show.seasons = await TvService.getSeasons(show.id);
-      UserService.addShow(this.user, show);
+      UserShowService.addShow(this.user, show);
 
       this.myShows = this.user.shows;
       this.showSearch(false);
     },
     removeShow(show: Show) {
-      UserService.removeShow(this.user, show);
+      UserShowService.removeShow(this.user, show);
       this.myShows = this.user.shows;
     },
     async displayShowDetails(show: Show) {
@@ -119,7 +119,7 @@ export default defineComponent({
       this.showDetailsVisible = false;
     },
     watchedEpisode(episode: TvEpisode, isWatched: boolean) {
-      UserService.watchedEpisode(this.user, episode, isWatched);
+      UserShowService.watchedEpisode(this.user, episode, isWatched);
     },
   },
   provide() {

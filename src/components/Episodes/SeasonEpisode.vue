@@ -50,8 +50,8 @@
 </template>
 
 <script lang="ts">
-import { TvEpisode } from "@/types/TvEpisode";
 import { defineComponent, inject } from "vue";
+import { TvEpisode } from "@/types/TvEpisode";
 
 export default defineComponent({
   name: "SeasonEpisode",
