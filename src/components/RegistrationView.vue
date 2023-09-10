@@ -8,7 +8,7 @@
             class="input is-success"
             type="text"
             placeholder="Text input"
-            value="bulma"
+            v-model="username"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-user"></i>
@@ -26,7 +26,7 @@
             class="input is-success"
             type="email"
             placeholder="Email input"
-            value="hello@"
+            v-model="email"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
@@ -45,13 +45,14 @@
             class="input is-danger"
             type="password"
             placeholder="Text input"
+            v-model="password"
           />
         </div>
       </div>
     </template>
 
     <template #footer>
-      <button class="button is-success">Register</button>
+      <button class="button is-success" @click="register">Register</button>
       <button class="button">Cancel</button>
     </template>
   </AuthTemplate>
@@ -63,13 +64,23 @@ import AuthTemplate from "./AuthTemplate.vue";
 
 export default defineComponent({
   name: "RegistrationView",
-  emits: ["cancel-login", "update:active-view"],
+  emits: ["cancel-login", "update:active-view", "register"],
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+    };
+  },
   methods: {
     cancelLogin() {
       this.$emit("cancel-login");
     },
     setActiveView(view: string) {
       this.$emit("update:active-view", view);
+    },
+    register() {
+      this.$emit("register", this.username, this.email, this.password);
     },
   },
   components: { AuthTemplate },

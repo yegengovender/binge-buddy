@@ -73,6 +73,8 @@
       :logging-in="loggingIn"
       v-if="loggingIn"
       @cancel-login="isLoggingIn(false)"
+      @login="login"
+      @register="register"
     />
   </div>
 </template>
@@ -114,10 +116,16 @@ export default defineComponent({
     };
   },
   methods: {
+    async login(username: string, password: string) {
+      this.user = await UserService.login(username, password);
+      this.myShows = this.user.shows;
+    },
+    async register(username: string, email: string, password: string) {
+      this.user = await UserService.register(username, email, password);
+      this.myShows = this.user.shows;
+    },
     async isLoggingIn(isLoggingIn: boolean) {
       this.loggingIn = isLoggingIn;
-      // this.user = await UserService.login("John Doe", "john.doe@rip.peace");
-      // this.myShows = this.user.shows;
     },
     showSearch(isVisible: boolean) {
       this.searchVisible = isVisible;
