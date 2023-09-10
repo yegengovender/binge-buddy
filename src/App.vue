@@ -4,15 +4,18 @@
     role="navigation"
     aria-label="main navigation"
   >
+    <!-- LOGO -->
     <div class="navbar-brand">
       <div class="navbar-item logo has-text-white-bis">BINGE BUDDY</div>
     </div>
 
+    <!-- SEARCH -->
     <div class="navbar-menu is-active">
       <div class="navbar-start"></div>
 
       <div class="navbar-end">
         <a class="navbar-item is-expanded">
+          <!-- SEARCH BAR -->
           <div class="navbar-item is-expanded">
             <SearchShows
               v-if="searchVisible === true"
@@ -20,6 +23,8 @@
               :add-to-my-shows="addToMyShows"
             />
           </div>
+
+          <!-- SEARCH ICON -->
           <span
             @click="showSearch(!searchVisible)"
             class="navbar-item icon is-large has-text-white-bis"
@@ -28,11 +33,19 @@
             <i v-else class="fas fa-search"></i>
           </span>
         </a>
+
+        <!-- LOGIN -->
         <div class="navbar-item user-section">
-          <CommonButton v-if="user && user.loggedIn">{{
-            user.name
-          }}</CommonButton>
-          <CommonButton v-else @click="login">Login</CommonButton>
+          <div class="dropdown is-active">
+            <div class="dropdown-trigger">
+              <CommonButton v-if="user && user.loggedIn">{{
+                user.name
+              }}</CommonButton>
+              <CommonButton v-else ari @click="isLoggingIn(true)"
+                >Login</CommonButton
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +66,15 @@
       :remove-show="removeShow"
     />
   </div>
+
+  <!-- LOGIN -->
+  <div class="login">
+    <LoginPanel
+      :logging-in="loggingIn"
+      v-if="loggingIn"
+      @cancel-login="isLoggingIn(false)"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -69,6 +91,7 @@ import SearchShows from "@/components/Search/SearchShows.vue";
 import MyShows from "@/components/Shows/MyShows.vue";
 import ShowDetails from "@/components/Shows/ShowDetails.vue";
 import CommonButton from "@/components/Button.vue";
+import LoginPanel from "@/components/LoginPanel.vue";
 
 export default defineComponent({
   name: "App",
@@ -77,6 +100,7 @@ export default defineComponent({
     SearchShows,
     ShowDetails,
     CommonButton,
+    LoginPanel,
   },
   data() {
     return {
@@ -86,12 +110,14 @@ export default defineComponent({
       myShows: [] as Show[],
       searchVisible: false,
       showDetailsVisible: false,
+      loggingIn: false,
     };
   },
   methods: {
-    login() {
-      this.user = UserService.login("John Doe", "john.doe@rip.peace");
-      this.myShows = this.user.shows;
+    async isLoggingIn(isLoggingIn: boolean) {
+      this.loggingIn = isLoggingIn;
+      // this.user = await UserService.login("John Doe", "john.doe@rip.peace");
+      // this.myShows = this.user.shows;
     },
     showSearch(isVisible: boolean) {
       this.searchVisible = isVisible;
