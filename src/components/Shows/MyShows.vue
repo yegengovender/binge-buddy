@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div v-if="shows.length === 0">No shows yet</div>
+      <div v-if="!shows || shows.length === 0">No shows yet</div>
     </div>
   </nav>
 </template>

@@ -53,14 +53,17 @@ export class TvService {
   static async getSeasons(showId: number): Promise<any[]> {
     const data = await fetch(`https://api.tvmaze.com/shows/${showId}/seasons`);
     let results = await data.json();
-    results = results.map((season: any) => TvService.toSeasonObject(season));
+    results = results.map((season: any) =>
+      TvService.toSeasonObject(season, showId)
+    );
     return results;
   }
 
   // eslint-disable-next-line
-  private static toSeasonObject(season: any): Season {
+  private static toSeasonObject(season: any, showId: number): Season {
     return {
       ...season,
+      showId: showId,
     } as Season;
   }
 }

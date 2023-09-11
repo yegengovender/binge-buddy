@@ -7,4 +7,5 @@ export interface Season {
   episodeOrder: number;
   premiereDate: string;
   endDate: string;
+  showId: number;
 }

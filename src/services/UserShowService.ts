@@ -1,10 +1,12 @@
 import { Show } from "@/types/Show";
 import { TvEpisode } from "@/types/TvEpisode";
 import { User } from "@/types/User";
+import { UserService } from "./UserService";
+
+const apiEndpoint = "http://localhost:5292";
 
 export class UserShowService {
-  static addShow(user: User, show: Show) {
-    // POST /user/{id}/show
+  static async addShow(user: User, show: Show) {
     user.shows = user.shows || [];
     user.shows.push(show);
 
@@ -16,6 +18,12 @@ export class UserShowService {
 
     (user.shows.find((s) => s.id === show.id) as Show).nextEpisode =
       UserShowService.nextEpisode(user, show);
+
+    // POST /user/{id}/shows/
+    const init = UserService.makeInit(show);
+    const data = (
+      await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`, init)
+    ).body;
   }
 
   private static nextEpisode(user: User, show: Show): TvEpisode | undefined {
@@ -68,5 +76,16 @@ export class UserShowService {
 
   static getUserShow(user: User, showId: number): Show | undefined {
     return user.shows.find((s) => s.id === showId);
+  }
+
+  static async apiRegister(username: string, email: string, password: string) {
+    const init: RequestInit = UserService.makeInit({
+      username,
+      email,
+      password,
+    });
+
+    const data = (await fetch(`${apiEndpoint}/User/register`, init)).body;
+    return data;
   }
 }

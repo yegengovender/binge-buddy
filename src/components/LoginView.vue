@@ -4,13 +4,7 @@
       <div class="field">
         <label class="label">Username</label>
         <div class="control has-icons-left has-icons-right">
-          <input
-            class="input is-success"
-            type="text"
-            placeholder="Username"
-            id="username"
-            v-model="username"
-          />
+          <input class="input is-success" type="text" v-model="username" />
           <span class="icon is-small is-left">
             <i class="fas fa-user"></i>
           </span>

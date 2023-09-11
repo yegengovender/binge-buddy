@@ -71,7 +71,7 @@
   <div class="login">
     <LoginPanel
       :logging-in="loggingIn"
-      v-if="loggingIn"
+      v-if="loggingIn && !user.loggedIn"
       @cancel-login="isLoggingIn(false)"
       @login="login"
       @register="register"
@@ -116,6 +116,19 @@ export default defineComponent({
     };
   },
   methods: {
+    isLoggingIn(isLoggingIn: boolean) {
+      this.loggingIn = isLoggingIn;
+    },
+    showSearch(isVisible: boolean) {
+      this.searchVisible = isVisible;
+    },
+    displayShowDetails(show: Show) {
+      this.showDetails = show;
+      this.showDetailsVisible = true;
+    },
+    hideShowDetails() {
+      this.showDetailsVisible = false;
+    },
     async login(username: string, password: string) {
       this.user = await UserService.login(username, password);
       this.myShows = this.user.shows;
@@ -123,15 +136,6 @@ export default defineComponent({
     async register(username: string, email: string, password: string) {
       this.user = await UserService.register(username, email, password);
       this.myShows = this.user.shows;
-    },
-    async isLoggingIn(isLoggingIn: boolean) {
-      this.loggingIn = isLoggingIn;
-    },
-    showSearch(isVisible: boolean) {
-      this.searchVisible = isVisible;
-    },
-    hideSearch(isVisible: boolean) {
-      this.searchVisible = false;
     },
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
@@ -144,13 +148,6 @@ export default defineComponent({
     removeShow(show: Show) {
       UserShowService.removeShow(this.user, show);
       this.myShows = this.user.shows;
-    },
-    async displayShowDetails(show: Show) {
-      this.showDetails = show;
-      this.showDetailsVisible = true;
-    },
-    hideShowDetails() {
-      this.showDetailsVisible = false;
     },
     watchedEpisode(episode: TvEpisode, isWatched: boolean) {
       UserShowService.watchedEpisode(this.user, episode, isWatched);

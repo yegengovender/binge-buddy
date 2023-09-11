@@ -22,12 +22,7 @@
       <div class="field">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          <input
-            class="input is-success"
-            type="email"
-            placeholder="Email input"
-            v-model="email"
-          />
+          <input class="input is-success" type="email" v-model="email" />
           <span class="icon is-small is-left">
             <i class="fas fa-envelope"></i>
           </span>
@@ -35,18 +30,13 @@
                         <i class="fas fa-exclamation-triangle"></i>
                       </span> -->
         </div>
-        <p class="help is-danger">This email is invalid</p>
+        <!-- <p class="help is-danger">This email is invalid</p> -->
       </div>
 
       <div class="field">
         <label class="label">Password</label>
         <div class="control">
-          <input
-            class="input is-danger"
-            type="password"
-            placeholder="Text input"
-            v-model="password"
-          />
+          <input class="input is-danger" type="password" v-model="password" />
         </div>
       </div>
     </template>
