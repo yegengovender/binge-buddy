@@ -6,41 +6,25 @@ import { UserService } from "./UserService";
 const apiEndpoint = "https://localhost:7147";
 
 export class UserShowService {
-  static async addShow(user: User, show: Show) {
-    user.shows = user.shows || [];
-    user.shows.push(show);
-
-    user.userShows = user.userShows || [];
-    user.userShows.push({
-      showId: show.id,
-      episodeIds: show.episodes.map((episode) => episode.id),
+  static async apiRegister(username: string, email: string, password: string) {
+    const init: RequestInit = UserService.makeInit({
+      username,
+      email,
+      password,
     });
 
-    (user.shows.find((s) => s.id === show.id) as Show).nextEpisode =
-      UserShowService.nextEpisode(user, show);
-
-    // POST /user/{id}/shows/
-    const init = UserService.makeInit(show);
-    await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`, init);
+    const data = (await fetch(`${apiEndpoint}/User/register`, init)).body;
+    return data;
   }
 
-  static nextEpisode(user: User, show: Show): TvEpisode | undefined {
-    console.log("next:showId--->", show.id);
-    const watchedEpisodes = user.userShows.find(
-      (s) => s.showId === show.id
-    )?.episodeIds;
+  static async addShow(user: User, show: Show) {
+    const init = UserService.makeInit(show);
+    const userAny = await (
+      await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`, init)
+    ).json();
+    console.log("userAny--->", userAny);
 
-    const userShow = UserShowService.getUserShow(user, show.id);
-    if (!userShow) {
-      return;
-    }
-
-    const nextEpisode = userShow.episodes.find(
-      (episode) => watchedEpisodes?.indexOf(episode.id) === -1
-    );
-
-    console.log("next--->", nextEpisode, userShow, watchedEpisodes);
-    return nextEpisode;
+    UserShowService.setUserShows(user, userAny);
   }
 
   static async removeShow(user: User, show: Show) {
@@ -48,13 +32,9 @@ export class UserShowService {
     const userObj = await (
       await fetch(`${apiEndpoint}/api/Users/${user.id}/shows/${show.id}`, init)
     ).json();
+    console.log("userAny--->", userObj);
 
-    user.shows = userObj.shows;
-
-    user.userShows.splice(
-      user.userShows.findIndex((s) => s.showId === show.id),
-      1
-    );
+    UserShowService.setUserShows(user, userObj);
   }
 
   static async watchedEpisode(
@@ -70,25 +50,41 @@ export class UserShowService {
       )
     ).json();
 
-    user.shows = userobj.shows;
-    user.userShows = userobj.userShows;
+    UserShowService.setUserShows(user, userobj);
+  }
+
+  static setUserShows(user: User, userAny: any) {
+    user.userShows = userAny.userShows;
+    user.shows = userAny.shows;
     user.shows.forEach((show) => {
       show.nextEpisode = UserShowService.nextEpisode(user, show);
+      show.episodes.forEach((episode) => {
+        episode.watchedDate = user.userShows.find(
+          (us) =>
+            us.episodeIds !== null && us.episodeIds.indexOf(episode.id) !== -1
+        )
+          ? new Date()
+          : undefined;
+      });
     });
   }
 
-  static getUserShow(user: User, showId: number): Show | undefined {
-    return user.shows.find((s) => s.id === showId);
-  }
+  static nextEpisode(user: User, show: Show): TvEpisode | undefined {
+    console.log("next:showId--->", show.id);
+    const watchedEpisodes = user.userShows.find(
+      (s) => s.showId === show.id
+    )?.episodeIds;
 
-  static async apiRegister(username: string, email: string, password: string) {
-    const init: RequestInit = UserService.makeInit({
-      username,
-      email,
-      password,
-    });
+    const userShow = user.shows.find((s) => s.id === show.id);
+    if (!userShow) {
+      return;
+    }
 
-    const data = (await fetch(`${apiEndpoint}/User/register`, init)).body;
-    return data;
+    const nextEpisode = userShow.episodes.find(
+      (episode) => watchedEpisodes?.indexOf(episode.id) === -1
+    );
+
+    console.log("next--->", nextEpisode, userShow, watchedEpisodes);
+    return nextEpisode;
   }
 }

@@ -8,41 +8,22 @@ const apiEndpoint = "https://localhost:7147";
 export class UserService {
   static async login(username: string, password: string) {
     const data = await UserService.apiLogin(username, password);
-    console.log("data--->", data);
 
-    const userAny: any = await await UserService.apiGetUser(username);
-    const user = new User(userAny.id, userAny.name, userAny.email);
+    const userObj: any = await await UserService.apiGetUser(username);
+    const user = new User(userObj.id, userObj.name, userObj.email);
 
-    user.userShows = userAny.userShows;
-    const shows: any = await (
-      await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`)
-    ).json();
-    user.shows =
-      shows &&
-      shows.map((show: any) => {
-        return show as Show;
-      });
-
-    user.shows.map((show) => {
-      show.nextEpisode = UserShowService.nextEpisode(user, show);
-      return show;
-    });
-    console.log("usershows--->", user);
-    console.log("user--->", user);
+    UserShowService.setUserShows(user, userObj);
 
     user.loggedIn = true;
-
     return user;
   }
 
   static async register(username: string, email: string, password: string) {
     const data = await UserService.apiRegister(username, email, password);
-    console.log("data--->", data);
 
     const userAny: any = await UserService.apiGetUser(username);
     const user = new User(userAny.id, userAny.name, userAny.email);
     user.loggedIn = true;
-    console.log("user--->", user);
 
     return user;
   }
@@ -64,6 +45,17 @@ export class UserService {
     return data;
   }
 
+  static async apiRegister(username: string, email: string, password: string) {
+    const init: RequestInit = UserService.makeInit({
+      username,
+      email,
+      password,
+    });
+
+    const data = (await fetch(`${apiEndpoint}/User/register`, init)).body;
+    return data;
+  }
+
   static makeInit(
     payload: object | null,
     method: string = "POST"
@@ -79,16 +71,5 @@ export class UserService {
       },
       body: payload && JSON.stringify(payload),
     };
-  }
-
-  static async apiRegister(username: string, email: string, password: string) {
-    const init: RequestInit = UserService.makeInit({
-      username,
-      email,
-      password,
-    });
-
-    const data = (await fetch(`${apiEndpoint}/User/register`, init)).body;
-    return data;
   }
 }
