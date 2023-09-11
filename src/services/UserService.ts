@@ -1,8 +1,9 @@
 /* eslint-disable */
 import { Show } from "@/types/Show";
 import { User } from "@/types/User";
+import { UserShowService } from "./UserShowService";
 
-const apiEndpoint = "http://localhost:5292";
+const apiEndpoint = "https://localhost:7147";
 
 export class UserService {
   static async login(username: string, password: string) {
@@ -12,14 +13,20 @@ export class UserService {
     const userAny: any = await await UserService.apiGetUser(username);
     const user = new User(userAny.id, userAny.name, userAny.email);
 
-    const userShows: any = await (
+    user.userShows = userAny.userShows;
+    const shows: any = await (
       await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`)
     ).json();
     user.shows =
-      userShows &&
-      userShows.map((show: any) => {
+      shows &&
+      shows.map((show: any) => {
         return show as Show;
       });
+
+    user.shows.map((show) => {
+      show.nextEpisode = UserShowService.nextEpisode(user, show);
+      return show;
+    });
     console.log("usershows--->", user);
     console.log("user--->", user);
 
@@ -57,7 +64,10 @@ export class UserService {
     return data;
   }
 
-  static makeInit(payload: object | null, method: string = "POST"): RequestInit {
+  static makeInit(
+    payload: object | null,
+    method: string = "POST"
+  ): RequestInit {
     return {
       method: method,
       // mode: "no-cors",

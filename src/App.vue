@@ -151,6 +151,7 @@ export default defineComponent({
     },
     async watchedEpisode(episode: TvEpisode, isWatched: boolean) {
       await UserShowService.watchedEpisode(this.user, episode, isWatched);
+      this.myShows = this.user.shows;
     },
   },
   provide() {

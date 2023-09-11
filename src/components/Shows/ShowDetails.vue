@@ -5,18 +5,17 @@
       <header class="modal-card-head has-background-grey-dark">
         <div class="modal-card-title column">
           <div class="media block">
-            <div class="media-left">
+            <figure class="media-left">
+              <p class="image is-128x128 is-2by3">
+                <img :src="show.image" alt="Placeholder image" />
+              </p>
+            </figure>
+
+            <div class="media-content">
               <p class="title is-4 has-text-white-ter">{{ show.name }}</p>
               <p class="subtitle is-6 has-text-white-ter">
                 {{ show.premiered }}
               </p>
-
-              <figure class="block image is-48x48px is-2by3">
-                <img :src="show.image" alt="Placeholder image" />
-              </figure>
-            </div>
-
-            <div class="media-content">
               <p
                 class="container block is-size-7 has-text-grey-lighter"
                 v-html="show.summary"

@@ -3,7 +3,7 @@ import { TvEpisode } from "@/types/TvEpisode";
 import { User } from "@/types/User";
 import { UserService } from "./UserService";
 
-const apiEndpoint = "http://localhost:5292";
+const apiEndpoint = "https://localhost:7147";
 
 export class UserShowService {
   static async addShow(user: User, show: Show) {
@@ -24,18 +24,22 @@ export class UserShowService {
     await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`, init);
   }
 
-  private static nextEpisode(user: User, show: Show): TvEpisode | undefined {
+  static nextEpisode(user: User, show: Show): TvEpisode | undefined {
     console.log("next:showId--->", show.id);
+    const watchedEpisodes = user.userShows.find(
+      (s) => s.showId === show.id
+    )?.episodeIds;
+
     const userShow = UserShowService.getUserShow(user, show.id);
     if (!userShow) {
       return;
     }
 
     const nextEpisode = userShow.episodes.find(
-      (episode) => episode.watchedDate === (null || undefined)
+      (episode) => watchedEpisodes?.indexOf(episode.id) === -1
     );
 
-    console.log("next--->", nextEpisode);
+    console.log("next--->", nextEpisode, userShow, watchedEpisodes);
     return nextEpisode;
   }
 
@@ -53,25 +57,24 @@ export class UserShowService {
     );
   }
 
-  static watchedEpisode(user: User, episode: TvEpisode, isWatched: boolean) {
-    // POST /user/episodes/{id}/watched
+  static async watchedEpisode(
+    user: User,
+    episode: TvEpisode,
+    isWatched: boolean
+  ) {
+    const init = UserService.makeInit(null);
+    const userobj = await (
+      await fetch(
+        `${apiEndpoint}/api/Users/${user.id}/watched/${episode.id}?isWatched=${isWatched}`,
+        init
+      )
+    ).json();
 
-    // const data = await fetch(`https://api.binge-buddy.com/shows/${showId}/episodes`);
-    // let results = await data.json();
-    // results = results.map((episode: any) =>
-    //   TvService.toEpisodeObject(episode, showId)
-    // );
-    // return results;
-
-    const userShow = UserShowService.getUserShow(user, episode.showId);
-    if (!userShow) return;
-
-    const userEpisode = userShow.episodes.find((e) => e.id === episode.id);
-    if (!userEpisode) return;
-
-    userEpisode.watchedDate = isWatched ? new Date() : undefined;
-    userShow.nextEpisode = UserShowService.nextEpisode(user, userShow);
-    console.log("watched -->", userEpisode, isWatched);
+    user.shows = userobj.shows;
+    user.userShows = userobj.userShows;
+    user.shows.forEach((show) => {
+      show.nextEpisode = UserShowService.nextEpisode(user, show);
+    });
   }
 
   static getUserShow(user: User, showId: number): Show | undefined {
