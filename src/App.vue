@@ -140,17 +140,17 @@ export default defineComponent({
     async addToMyShows(show: Show) {
       show.episodes = await TvService.getEpisodes(show.id);
       show.seasons = await TvService.getSeasons(show.id);
-      UserShowService.addShow(this.user, show);
+      await UserShowService.addShow(this.user, show);
 
       this.myShows = this.user.shows;
       this.showSearch(false);
     },
-    removeShow(show: Show) {
-      UserShowService.removeShow(this.user, show);
+    async removeShow(show: Show) {
+      await UserShowService.removeShow(this.user, show);
       this.myShows = this.user.shows;
     },
-    watchedEpisode(episode: TvEpisode, isWatched: boolean) {
-      UserShowService.watchedEpisode(this.user, episode, isWatched);
+    async watchedEpisode(episode: TvEpisode, isWatched: boolean) {
+      await UserShowService.watchedEpisode(this.user, episode, isWatched);
     },
   },
   provide() {

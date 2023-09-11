@@ -57,7 +57,7 @@ export class UserService {
     return data;
   }
 
-  static makeInit(payload: object, method: string = "POST"): RequestInit {
+  static makeInit(payload: object | null, method: string = "POST"): RequestInit {
     return {
       method: method,
       // mode: "no-cors",
@@ -67,7 +67,7 @@ export class UserService {
         "Content-Type": "application/json",
         // 'Authorization': 'Bearer my-token',
       },
-      body: JSON.stringify(payload),
+      body: payload && JSON.stringify(payload),
     };
   }
 

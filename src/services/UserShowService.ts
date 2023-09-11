@@ -21,31 +21,31 @@ export class UserShowService {
 
     // POST /user/{id}/shows/
     const init = UserService.makeInit(show);
-    const data = (
-      await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`, init)
-    ).body;
+    await fetch(`${apiEndpoint}/api/Users/${user.id}/shows`, init);
   }
 
   private static nextEpisode(user: User, show: Show): TvEpisode | undefined {
+    console.log("next:showId--->", show.id);
     const userShow = UserShowService.getUserShow(user, show.id);
     if (!userShow) {
       return;
     }
 
     const nextEpisode = userShow.episodes.find(
-      (episode) => episode.watchedDate === undefined
+      (episode) => episode.watchedDate === (null || undefined)
     );
 
     console.log("next--->", nextEpisode);
     return nextEpisode;
   }
 
-  static removeShow(user: User, show: Show) {
-    // DELETE /user/{id}/show
-    user.shows.splice(
-      user.shows.findIndex((s) => s.id === show.id),
-      1
-    );
+  static async removeShow(user: User, show: Show) {
+    const init = UserService.makeInit(null, "DELETE");
+    const userObj = await (
+      await fetch(`${apiEndpoint}/api/Users/${user.id}/shows/${show.id}`, init)
+    ).json();
+
+    user.shows = userObj.shows;
 
     user.userShows.splice(
       user.userShows.findIndex((s) => s.showId === show.id),
