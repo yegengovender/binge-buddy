@@ -1,12 +1,14 @@
 <template>
   <LoginView
     v-if="activeView === 'login'"
+    :error="loginError"
     @cancel-login="cancelLogin"
     @update:active-view="setActiveView"
     @login="login"
   />
   <RegistrationView
     v-if="activeView !== 'login'"
+    :error="registrationError"
     :on-cancel-login="cancelLogin"
     @update:active-view="setActiveView"
     @register="register"
@@ -15,8 +17,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import RegistrationView from "./RegistrationView.vue";
-import LoginView from "./LoginView.vue";
+import RegistrationView from "@/components/Authentication/RegistrationView.vue";
+import LoginView from "@/components/Authentication/LoginView.vue";
 
 export default defineComponent({
   name: "LoginPanel",
@@ -26,20 +28,26 @@ export default defineComponent({
       type: Boolean,
       required: true,
     },
-    // ...
+    loginError: {
+      type: String,
+      required: false,
+    },
+    registrationError: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
       activeView: "login",
-      // ...
     };
   },
   methods: {
-    cancelLogin() {
-      this.$emit("cancel-login");
-    },
     setActiveView(view: string) {
       this.activeView = view;
+    },
+    cancelLogin() {
+      this.$emit("cancel-login");
     },
     login(username: string, password: string) {
       this.$emit("login", username, password);

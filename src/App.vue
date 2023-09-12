@@ -1,59 +1,48 @@
 <template>
-  <nav
-    class="navbar is-dark is-transparent"
-    role="navigation"
-    aria-label="main navigation"
-  >
-    <!-- LOGO -->
+  <div class="navbar has-background-grey-dark is-transparent is-flex">
     <div class="navbar-brand">
       <div class="navbar-item logo has-text-white-bis">BINGE BUDDY</div>
     </div>
 
-    <!-- SEARCH -->
-    <div class="navbar-menu is-active">
+    <div class="navbar-menu">
       <div class="navbar-start"></div>
+      <!-- <div class="navbar-search navbar-item is-expanded is-flex-grow-1 dropdown is-active">
+        <input
+          class="input dropdown-trigger"
+          type="text"
+          id="search-shows"
+          placeholder="What are you watching today?"
+        />
+      </div> -->
+
+      <SearchShows
+        v-if="searchVisible === true"
+        :search-method="TvService.doSearch"
+        :add-to-my-shows="addToMyShows"
+      />
 
       <div class="navbar-end">
-        <a class="navbar-item is-expanded">
-          <!-- SEARCH BAR -->
-          <div class="navbar-item is-expanded">
-            <SearchShows
-              v-if="searchVisible === true"
-              :search-method="TvService.doSearch"
-              :add-to-my-shows="addToMyShows"
-            />
-          </div>
-
-          <!-- SEARCH ICON -->
-          <span
-            @click="showSearch(!searchVisible)"
-            class="navbar-item icon is-large has-text-white-bis"
-          >
+        <div @click="showSearch(!searchVisible)" class="navbar-item">
+          <span class="icon is-large has-text-white-bis">
             <i v-if="searchVisible === true" class="fas fa-times-circle"></i>
             <i v-else class="fas fa-search"></i>
           </span>
-        </a>
-
-        <!-- LOGIN -->
-        <div class="navbar-item user-section">
-          <div class="dropdown is-active">
-            <div class="dropdown-trigger">
-              <CommonButton v-if="user && user.loggedIn">{{
-                user.name
-              }}</CommonButton>
-              <CommonButton v-else ari @click="isLoggingIn(true)"
-                >Login</CommonButton
-              >
-            </div>
-          </div>
+        </div>
+        <UserInfo
+          :logout="logout"
+          :user="user"
+          v-if="user && user.loggedIn"
+        ></UserInfo>
+        <div class="navbar-item user-section" v-else>
+          <CommonButton @click="isLoggingIn(true)">Login</CommonButton>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
 
   <div class="main-content has-background-grey-darker section">
     <ShowDetails
-      v-if="showDetailsVisible"
+      v-if="false && showDetailsVisible"
       :show="showDetails"
       :user="user"
       :close-click="hideShowDetails"
@@ -71,6 +60,8 @@
   <div class="login">
     <LoginPanel
       :logging-in="loggingIn"
+      :login-error="loginError"
+      :registration-error="registrationError"
       v-if="loggingIn && !user.loggedIn"
       @cancel-login="isLoggingIn(false)"
       @login="login"
@@ -89,11 +80,12 @@ import { TvService } from "@/services/TvService";
 import { UserService } from "@/services/UserService";
 import { UserShowService } from "@/services/UserShowService";
 
+import CommonButton from "@/components/Button.vue";
 import SearchShows from "@/components/Search/SearchShows.vue";
 import MyShows from "@/components/Shows/MyShows.vue";
 import ShowDetails from "@/components/Shows/ShowDetails.vue";
-import CommonButton from "@/components/Button.vue";
-import LoginPanel from "@/components/LoginPanel.vue";
+import LoginPanel from "@/components/Authentication/LoginPanel.vue";
+import UserInfo from "@/components/Authentication/UserInfo.vue";
 
 export default defineComponent({
   name: "App",
@@ -103,6 +95,7 @@ export default defineComponent({
     ShowDetails,
     CommonButton,
     LoginPanel,
+    UserInfo,
   },
   data() {
     return {
@@ -113,6 +106,8 @@ export default defineComponent({
       searchVisible: false,
       showDetailsVisible: false,
       loggingIn: false,
+      loginError: null as string | null,
+      registrationError: null as string | null,
     };
   },
   methods: {
@@ -129,9 +124,19 @@ export default defineComponent({
     hideShowDetails() {
       this.showDetailsVisible = false;
     },
+    async logout() {
+      this.user = {} as User;
+      this.isLoggingIn(false);
+    },
     async login(username: string, password: string) {
-      this.user = await UserService.login(username, password);
-      this.myShows = this.user.shows;
+      try {
+        this.loginError = null;
+        this.user = await UserService.login(username, password);
+        this.myShows = this.user.shows;
+        this.isLoggingIn(false);
+      } catch (error) {
+        this.loginError = "unable to log in";
+      }
     },
     async register(username: string, email: string, password: string) {
       this.user = await UserService.register(username, email, password);

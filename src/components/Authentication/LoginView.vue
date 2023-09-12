@@ -7,8 +7,8 @@
           <input
             class="input is-success"
             type="text"
-            placeholder="Text input"
             v-model="username"
+            id="login-username"
           />
           <span class="icon is-small is-left">
             <i class="fas fa-user"></i>
@@ -20,29 +20,16 @@
       </div>
 
       <div class="field">
-        <label class="label">Email</label>
-        <div class="control has-icons-left has-icons-right">
-          <input class="input is-success" type="email" v-model="email" />
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
-          <!-- <span class="icon is-small is-right">
-                        <i class="fas fa-exclamation-triangle"></i>
-                      </span> -->
-        </div>
-        <!-- <p class="help is-danger">This email is invalid</p> -->
-      </div>
-
-      <div class="field">
         <label class="label">Password</label>
         <div class="control">
           <input class="input is-danger" type="password" v-model="password" />
         </div>
+        <p v-if="error" class="help is-danger">{{ error }}</p>
       </div>
     </template>
 
     <template #footer>
-      <button class="button is-success" @click="register">Register</button>
+      <button class="button is-success" @click="login">Login</button>
       <button class="button">Cancel</button>
     </template>
   </AuthTemplate>
@@ -50,15 +37,23 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import AuthTemplate from "./AuthTemplate.vue";
+import AuthTemplate from "@/components/Authentication/AuthTemplate.vue";
 
 export default defineComponent({
-  name: "RegistrationView",
-  emits: ["cancel-login", "update:active-view", "register"],
+  name: "LoginView",
+  emits: ["cancel-login", "update:active-view", "login"],
+  mounted() {
+    document.getElementById("login-username")?.focus();
+  },
+  props: {
+    error: {
+      type: String,
+      required: false,
+    },
+  },
   data() {
     return {
       username: "",
-      email: "",
       password: "",
     };
   },
@@ -69,8 +64,8 @@ export default defineComponent({
     setActiveView(view: string) {
       this.$emit("update:active-view", view);
     },
-    register() {
-      this.$emit("register", this.username, this.email, this.password);
+    login() {
+      this.$emit("login", this.username, this.password);
     },
   },
   components: { AuthTemplate },
