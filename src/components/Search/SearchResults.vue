@@ -1,11 +1,6 @@
 <template>
-  <div
-    v-for="(show, index) in results"
-    :key="index"
-    class="notification result-item"
-    :class="index % 2 == 0 ? 'even-row' : 'odd-row'"
-  >
-    <a class="dropdown-item">
+  <div v-for="(show, index) in results" :key="index">
+    <a class="dropdown-item my-4">
       <div class="media block">
         <div class="media-left">
           <ShowPoster :show="show" class="is-96x96" />
@@ -68,7 +63,7 @@ export default defineComponent({
   //   }
 
   &.even-row {
-    background-color: hsl(0, 0%, 71%);
+    // background-color: hsl(0, 0%, 71%);
   }
 
   //   &.odd-row {

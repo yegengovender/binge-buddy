@@ -11,7 +11,7 @@
       v-model="searchText"
     />
     <div v-if="results.length" class="dropdown-menu" id="search-results">
-      <div class="dropdown-content">
+      <div class="dropdown-content has-background-grey-lighter">
         <SearchResults :results="results" :add-to-my-shows="addSelectedShow" />
       </div>
     </div>
