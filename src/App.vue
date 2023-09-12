@@ -6,15 +6,7 @@
 
     <div class="navbar-menu">
       <div class="navbar-start"></div>
-      <!-- <div class="navbar-search navbar-item is-expanded is-flex-grow-1 dropdown is-active">
-        <input
-          class="input dropdown-trigger"
-          type="text"
-          id="search-shows"
-          placeholder="What are you watching today?"
-        />
-      </div> -->
-
+      <!-- Search Bar -->
       <SearchShows
         v-if="searchVisible === true"
         :search-method="TvService.doSearch"
@@ -22,12 +14,15 @@
       />
 
       <div class="navbar-end">
+        <!-- Search Icons -->
         <div @click="showSearch(!searchVisible)" class="navbar-item">
           <span class="icon is-large has-text-white-bis">
             <i v-if="searchVisible === true" class="fas fa-times-circle"></i>
             <i v-else class="fas fa-search"></i>
           </span>
         </div>
+
+        <!-- User Info -->
         <UserInfo
           :logout="logout"
           :user="user"
@@ -42,7 +37,7 @@
 
   <div class="main-content has-background-grey-darker section">
     <ShowDetails
-      v-if="false && showDetailsVisible"
+      v-if="showDetailsVisible"
       :show="showDetails"
       :user="user"
       :close-click="hideShowDetails"
@@ -59,10 +54,10 @@
   <!-- LOGIN -->
   <div class="login">
     <LoginPanel
+      v-if="loggingIn && !user.loggedIn"
       :logging-in="loggingIn"
       :login-error="loginError"
       :registration-error="registrationError"
-      v-if="loggingIn && !user.loggedIn"
       @cancel-login="isLoggingIn(false)"
       @login="login"
       @register="register"
@@ -106,8 +101,8 @@ export default defineComponent({
       searchVisible: false,
       showDetailsVisible: false,
       loggingIn: false,
-      loginError: null as string | null,
-      registrationError: null as string | null,
+      loginError: undefined as string | undefined,
+      registrationError: undefined as string | undefined,
     };
   },
   methods: {
@@ -130,7 +125,7 @@ export default defineComponent({
     },
     async login(username: string, password: string) {
       try {
-        this.loginError = null;
+        this.loginError = undefined;
         this.user = await UserService.login(username, password);
         this.myShows = this.user.shows;
         this.isLoggingIn(false);
@@ -169,12 +164,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-$primary-accent-color: #ff6600; // Primary accent color (orange)
-$secondary-accent-color: #00aaff; // Secondary accent color (blue)
-$text-color: #fff; // Text color (white)
-$background-color: #222; // Background color (dark)
-$header-footer-bg-color: #333; // Header and footer background color (slightly lighter dark)
-$input-field-bg-color: #444;
+// $primary-accent-color: #ff6600; // Primary accent color (orange)
+// $secondary-accent-color: #00aaff; // Secondary accent color (blue)
+// $text-color: #fff; // Text color (white)
+// $background-color: #222; // Background color (dark)
+// $header-footer-bg-color: #333; // Header and footer background color (slightly lighter dark)
+// $input-field-bg-color: #444;
 
 body,
 h1,
@@ -194,10 +189,8 @@ li {
 }
 
 .logo {
-  // color: #b1aeae;
   font-weight: bold;
   font-size: 26px;
-  /* Adjust the font size as needed */
   display: inline-block;
   border: solid rgb(153, 164, 199);
   border-width: 0 15px 18px 15px;
@@ -208,17 +201,13 @@ li {
 
   img {
     width: 70px;
-    /* Adjust the width as needed */
     height: auto;
-    /* Maintain aspect ratio */
   }
 }
 
 .main-content {
   background-color: #222;
-  /* Choose your desired dark background color */
   color: #fff;
   padding: 20px;
-  /* Adjust the padding as needed */
 }
 </style>

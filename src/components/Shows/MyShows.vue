@@ -1,5 +1,46 @@
 <template>
-  <nav class="card has-background-grey-lighter">
+  <div>
+    <h3>My Shows</h3>
+    <p>
+      <a href="#" @click="showSearch(true)"> Add a show</a>
+    </p>
+  </div>
+
+  <div>
+    <div
+      v-for="show in (shows as Show[])"
+      :key="show.id"
+      class="block has-background-grey"
+    >
+      <h2 class="title is-5 has-text-white">
+        {{ show.name }} -
+        {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
+      </h2>
+
+      <div class="subtitle is-6 has-text-white">
+        {{ show.episodes.length }} Episodes
+      </div>
+
+      <div class="block">
+        <h4 class="title is-5 has-text-white">Next Episode:</h4>
+        <SeasonEpisode :episode="show.nextEpisode" :show="show" />
+      </div>
+
+      <div class="level">
+        <div class="control-box">
+          <CommonButton @click="showInfo(show)">More Info</CommonButton>
+        </div>
+
+        <div class="control-box">
+          <CommonButton @click="removeShow(show)" :is-secondary="true"
+            >Remove</CommonButton
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav v-if="false" class="has-background-grey-lighter">
     <div class="card-header has-background-grey has-text-white-ter">
       <p class="card-header-title is-4">
         My Shows
@@ -16,7 +57,7 @@
             <figure class="media-left">
               <h2 class="title is-5">{{ show.name }}</h2>
 
-              <ShowPoster :show="show" />
+              <!-- <ShowPoster :show="show" /> -->
 
               <div class="title is-6">
                 {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
