@@ -11,6 +11,7 @@
         v-if="searchVisible === true"
         :search-method="TvService.doSearch"
         :add-to-my-shows="addToMyShows"
+        :show-info="displayShowDetails"
       />
 
       <div class="navbar-end">
@@ -112,7 +113,11 @@ export default defineComponent({
     showSearch(isVisible: boolean) {
       this.searchVisible = isVisible;
     },
-    displayShowDetails(show: Show) {
+    async displayShowDetails(show: Show) {
+      show.episodes =
+        show.episodes && show.episodes.length > 0
+          ? show.episodes
+          : await TvService.getEpisodes(show.id);
       this.showDetails = show;
       this.showDetailsVisible = true;
     },

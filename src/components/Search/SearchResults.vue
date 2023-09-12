@@ -24,7 +24,10 @@
                 ><i class="fas fa-solid fa-plus"></i></span
               >&nbsp; I'm watching
             </CommonButton>
-            <CommonButton :is-secondary="true" class="is-small"
+            <CommonButton
+              @click="showInfo(show)"
+              :is-secondary="true"
+              class="is-small"
               >More Info</CommonButton
             >
           </div>
@@ -51,32 +54,11 @@ export default defineComponent({
       type: Function as any,
       required: true,
     },
+    showInfo: {
+      type: Function,
+      required: true,
+    },
   },
   components: { ShowPoster, CommonButton },
 });
 </script>
-
-<style scoped lang="scss">
-.result-item {
-  //   .show-image {
-  //     height: 100px;
-  //   }
-
-  &.even-row {
-    // background-color: hsl(0, 0%, 71%);
-  }
-
-  //   &.odd-row {
-  //     background-color: hsl(0, 0%, 86%);
-  //   }
-
-  //   .show-details {
-  //     .show-summary {
-  //       max-height: 70px;
-  //       overflow: hidden;
-  //       text-overflow: ellipsis;
-  //       padding: 10px;
-  //     }
-  //   }
-}
-</style>

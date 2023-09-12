@@ -3,7 +3,7 @@ import { Show } from "@/types/Show";
 import { User } from "@/types/User";
 import { UserShowService } from "./UserShowService";
 
-const apiEndpoint = "https://localhost:7147";
+const apiEndpoint = "http://localhost:5292";
 
 export class UserService {
   static async login(username: string, password: string) {

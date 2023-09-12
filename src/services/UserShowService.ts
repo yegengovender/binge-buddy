@@ -3,7 +3,7 @@ import { TvEpisode } from "@/types/TvEpisode";
 import { User } from "@/types/User";
 import { UserService } from "./UserService";
 
-const apiEndpoint = "https://localhost:7147";
+const apiEndpoint = "http://localhost:5292";
 
 export class UserShowService {
   static async apiRegister(username: string, email: string, password: string) {

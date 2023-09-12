@@ -12,7 +12,11 @@
     />
     <div v-if="results.length" class="dropdown-menu" id="search-results">
       <div class="dropdown-content has-background-grey-lighter">
-        <SearchResults :results="results" :add-to-my-shows="addSelectedShow" />
+        <SearchResults
+          :results="results"
+          :add-to-my-shows="addSelectedShow"
+          :show-info="showInfo"
+        />
       </div>
     </div>
   </div>
@@ -38,6 +42,10 @@ export default defineComponent({
   props: {
     searchMethod: Function,
     addToMyShows: {
+      type: Function,
+      required: true,
+    },
+    showInfo: {
       type: Function,
       required: true,
     },
