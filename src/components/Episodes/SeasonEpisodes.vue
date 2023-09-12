@@ -6,7 +6,7 @@
     )"
     :key="i"
   >
-    <SeasonEpisode :episode="episode" />
+    <SeasonEpisode :episode="episode" :show="show" />
   </div>
 </template>
 

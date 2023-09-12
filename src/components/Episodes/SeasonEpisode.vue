@@ -23,7 +23,7 @@
                 style="min-width: 180px"
                 @pointerenter="isHover = true"
                 @pointerleave="isHover = false"
-                @click="watchedEpisode(episode, false)"
+                @click="watchedEpisode(episode, show, false)"
               >
                 <span v-if="isHover"> Mark as Unwatched </span>
                 <span v-else> Mark as Unwatched </span>
@@ -33,7 +33,7 @@
                 v-else
                 class="button is-outlined is-info is-pulled-right"
                 style="min-width: 180px"
-                @click="watchedEpisode(episode, true)"
+                @click="watchedEpisode(episode, show, true)"
               >
                 Mark as Watched
               </span>
@@ -52,22 +52,32 @@
 <script lang="ts">
 import { defineComponent, inject } from "vue";
 import { TvEpisode } from "@/types/TvEpisode";
+import { Show } from "@/types/Show";
 
 export default defineComponent({
   name: "SeasonEpisode",
   setup() {
     const app_watchedEpisode = inject("app_watchedEpisode") as (
       episode: TvEpisode,
+      show: Show,
       isWatched: boolean
     ) => void | undefined;
-    const watchedEpisode = (episode: TvEpisode, watched: boolean) => {
-      app_watchedEpisode(episode, watched);
+    const watchedEpisode = (
+      episode: TvEpisode,
+      show: Show,
+      watched: boolean
+    ) => {
+      app_watchedEpisode(episode, show, watched);
     };
     return { watchedEpisode };
   },
   props: {
     episode: {
       type: Object as () => TvEpisode | undefined,
+      required: true,
+    },
+    show: {
+      type: Object as () => Show,
       required: true,
     },
   },

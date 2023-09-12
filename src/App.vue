@@ -149,9 +149,10 @@ export default defineComponent({
       await UserShowService.removeShow(this.user, show);
       this.myShows = this.user.shows;
     },
-    async watchedEpisode(episode: TvEpisode, isWatched: boolean) {
+    async watchedEpisode(episode: TvEpisode, show: Show, isWatched: boolean) {
       await UserShowService.watchedEpisode(this.user, episode, isWatched);
       this.myShows = this.user.shows;
+      this.showDetails = this.user.shows.find((s) => s.id === show.id) as Show;
     },
   },
   provide() {
