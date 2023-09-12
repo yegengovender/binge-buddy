@@ -1,8 +1,13 @@
 <template>
-  <div>
+  <div class="level">
     <h3>My Shows</h3>
     <p>
-      <a href="#" @click="showSearch(true)"> Add a show</a>
+      <CommonButton @click="showSearch(true)" class="is-small">
+        <span class="icon">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span class="ml-1"> Add a show </span>
+      </CommonButton>
     </p>
   </div>
 
@@ -10,21 +15,30 @@
     <div
       v-for="show in (shows as Show[])"
       :key="show.id"
-      class="block has-background-grey"
+      class="notification has-background-grey"
     >
-      <h2 class="title is-5 has-text-white">
-        {{ show.name }} -
-        {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
-      </h2>
+      <div class="media">
+        <div class="media-left">
+          <ShowPoster class="is-64x64" :show="show" />
+        </div>
 
-      <div class="subtitle is-6 has-text-white">
-        {{ show.episodes.length }} Episodes
+        <div class="media-content">
+          <h2 class="title is-5 has-text-grey-lighter">
+            {{ show.name }} -
+            {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
+          </h2>
+
+          <div class="subtitle is-6 has-text-grey-lighter">
+            {{ show.episodes.length }} Episodes
+          </div>
+
+          <div class="block">
+            <h4 class="title is-5 has-text-white-ter">Next Episode:</h4>
+          </div>
+        </div>
       </div>
 
-      <div class="block">
-        <h4 class="title is-5 has-text-white">Next Episode:</h4>
-        <SeasonEpisode :episode="show.nextEpisode" :show="show" />
-      </div>
+      <SeasonEpisode :episode="show.nextEpisode" :show="show" />
 
       <div class="level">
         <div class="control-box">
@@ -39,66 +53,6 @@
       </div>
     </div>
   </div>
-
-  <nav v-if="false" class="has-background-grey-lighter">
-    <div class="card-header has-background-grey has-text-white-ter">
-      <p class="card-header-title is-4">
-        My Shows
-        <span class="card-header-icon">
-          <CommonButton @click="showSearch(true)"> Add a show </CommonButton>
-        </span>
-      </p>
-    </div>
-
-    <div class="panel-block">
-      <div>
-        <div v-for="show in (shows as Show[])" :key="show.id">
-          <div class="media">
-            <figure class="media-left">
-              <h2 class="title is-5">{{ show.name }}</h2>
-
-              <!-- <ShowPoster :show="show" /> -->
-
-              <div class="title is-6">
-                {{ new Set(show.episodes.map((e) => e.season)).size }} Seasons
-              </div>
-
-              <div class="subtitle is-6">
-                {{ show.episodes.length }} Episodes
-              </div>
-
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <div class="control-box">
-                    <CommonButton @click="showInfo(show)"
-                      >More Info</CommonButton
-                    >
-                  </div>
-
-                  <div class="control-box">
-                    <CommonButton @click="removeShow(show)" :is-secondary="true"
-                      >Remove</CommonButton
-                    >
-                  </div>
-                </div>
-              </nav>
-            </figure>
-
-            <div class="media-content">
-              <div class="content">
-                <h4 class="title is-5 has-text-grey">Next Episode:</h4>
-                <h5>
-                  <SeasonEpisode :episode="show.nextEpisode" :show="show" />
-                </h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div v-if="!shows || shows.length === 0">No shows yet</div>
-    </div>
-  </nav>
 </template>
 
 <script lang="ts">
@@ -148,15 +102,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.shows-content {
-  display: block;
-  margin: 15px 0;
-}
+// .shows-content {
+//   display: block;
+//   margin: 15px 0;
+// }
 
-.show-info {
-  display: inline-block;
-  text-align: center;
-}
+// .show-info {
+//   display: inline-block;
+//   text-align: center;
+// }
 
 .control-box {
   display: block;

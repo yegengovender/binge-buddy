@@ -22,8 +22,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .poster {
-  height: 150px;
-  width: 205px;
+  // height: 150px;
+  // width: 205px;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
