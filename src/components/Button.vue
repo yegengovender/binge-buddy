@@ -1,5 +1,12 @@
 <template>
-  <span :class="[isSecondary ? 'is-warning' : 'is-info', 'button', 'isLight']">
+  <span
+    :class="[
+      isSecondary ? 'is-warning' : 'is-info',
+      'button',
+      'isLight',
+      'isResponsive',
+    ]"
+  >
     <slot></slot>
   </span>
 </template>

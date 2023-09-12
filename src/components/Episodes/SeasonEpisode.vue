@@ -3,36 +3,42 @@
     <a>
       <div class="panel">
         <div class="panel-heading has-background-grey-dark">
-          <div class="columns">
-            <span class="column">
-              <p class="title is-5 has-text-grey-light">
-                Episode {{ episode.number }}
+          <div class="columns is-multiline is-3">
+            <span class="column is-full">
+              <p class="title is-6 has-text-grey-light">
+                Season {{ episode.season }} - Episode {{ episode.number }}
+
                 <span v-if="!!episode.watchedDate" class="icon mr-1"
                   ><i class="fas fa-check has-text-success"></i
                 ></span>
               </p>
-              <p class="subtitle is-6 has-text-grey-lighter">
-                {{ episode.name }} ( {{ episode.runtime }} mins )
+              <p class="subtitle is-7 has-text-grey-lighter">
+                {{ episode.name }} - {{ episode.runtime }} mins
               </p>
             </span>
-            <span class="column">
+
+            <span class="column is-one-third is-full-mobile"></span>
+
+            <span class="column has-text-right is-two-thirds is-full-mobile">
               <span
                 v-if="!!episode.watchedDate"
-                class="button is-outlined is-pulled-right"
-                :class="isHover ? 'is-danger' : 'is-success'"
-                style="min-width: 180px"
-                @pointerenter="isHover = true"
-                @pointerleave="isHover = false"
+                class="button is-outlined is-full-widht is-success is-pulled-right is-small"
+                @pointerenter="
+                  (event) => {
+                    (event.target as HTMLElement).classList.add('is-danger');
+                  }
+                "
+                @pointerleave="(event) => {
+                    (event.target as HTMLElement).classList.remove('is-danger');
+                  }"
                 @click="watchedEpisode(episode, show, false)"
               >
-                <span v-if="isHover"> Mark as Unwatched </span>
-                <span v-else> Mark as Unwatched </span>
+                <span> Mark as Unwatched </span>
               </span>
 
               <span
                 v-else
-                class="button is-outlined is-info is-pulled-right"
-                style="min-width: 180px"
+                class="button is-outlined is-responsive is-info is-pulled-right is-small"
                 @click="watchedEpisode(episode, show, true)"
               >
                 Mark as Watched
@@ -41,8 +47,8 @@
           </div>
         </div>
 
-        <div class="panel-block has-background-grey-lighter">
-          <div classs="block" v-html="episode.summary"></div>
+        <div class="has-background-grey-lighter has-text-grey-dark">
+          <p class="p-2 is-size-7 summary-block" v-html="episode.summary"></p>
         </div>
       </div>
     </a>
@@ -88,3 +94,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.summary-block {
+  max-height: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

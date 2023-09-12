@@ -1,8 +1,8 @@
 <template>
   <div class="level">
-    <h3>My Shows</h3>
+    <h3 class="title is-3 has-text-grey-light">My Shows</h3>
     <p>
-      <CommonButton @click="showSearch(true)" class="is-small">
+      <CommonButton @click="showSearch(true)" class="is-small is-success">
         <span class="icon">
           <i class="fas fa-plus"></i>
         </span>
@@ -11,11 +11,11 @@
     </p>
   </div>
 
-  <div>
+  <div class="columns">
     <div
       v-for="show in (shows as Show[])"
       :key="show.id"
-      class="notification has-background-grey"
+      class="column is-one-quarter is-full-mobile panel m-2 has-background-grey-dark"
     >
       <div class="media">
         <div class="media-left">
@@ -33,7 +33,7 @@
           </div>
 
           <div class="block">
-            <h4 class="title is-5 has-text-white-ter">Next Episode:</h4>
+            <h4 class="subtitle is-6 has-text-white-ter">Next Episode:</h4>
           </div>
         </div>
       </div>
@@ -41,12 +41,17 @@
       <SeasonEpisode :episode="show.nextEpisode" :show="show" />
 
       <div class="level">
-        <div class="control-box">
-          <CommonButton @click="showInfo(show)">More Info</CommonButton>
+        <div class="block my-2">
+          <CommonButton class="is-small" @click="showInfo(show)"
+            >More Info</CommonButton
+          >
         </div>
 
-        <div class="control-box">
-          <CommonButton @click="removeShow(show)" :is-secondary="true"
+        <div class="block my-2">
+          <CommonButton
+            class="is-small"
+            @click="removeShow(show)"
+            :is-secondary="true"
             >Remove</CommonButton
           >
         </div>
@@ -100,20 +105,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="scss">
-// .shows-content {
-//   display: block;
-//   margin: 15px 0;
-// }
-
-// .show-info {
-//   display: inline-block;
-//   text-align: center;
-// }
-
-.control-box {
-  display: block;
-  margin: 5px;
-}
-</style>

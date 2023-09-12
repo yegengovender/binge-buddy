@@ -1,6 +1,6 @@
 <template>
   <div
-    class="menu-list"
+    class="x-menu-list m-2"
     v-for="(episode, i) in new Set(
       show.episodes.filter((e) => e.season === season)
     )"

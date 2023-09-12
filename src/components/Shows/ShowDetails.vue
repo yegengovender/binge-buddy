@@ -1,6 +1,6 @@
 <template>
   <div class="modal is-active">
-    <div class="modal-background"></div>
+    <div class="modal-background" @click="closeClick"></div>
     <div class="modal-card">
       <header class="modal-card-head has-background-grey-dark">
         <div class="modal-card-title column">
